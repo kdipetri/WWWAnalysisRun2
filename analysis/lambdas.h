@@ -194,6 +194,9 @@ namespace Lambdas
     extern std::function<float()> is1SFOS;
     extern std::function<float()> is2SFOS;
 
+    extern std::function<float()> is0SFOSeem;
+    extern std::function<float()> is0SFOSmme;
+
     std::function<float()> ThreeLepPresel(  Variation::ExpSyst expsyst=Variation::JES, Variation::Var var=Variation::Nominal, bool invert_btag=false);
 
     extern std::function<float()> ZVeto3L;

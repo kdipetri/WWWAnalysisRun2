@@ -135,23 +135,41 @@ std::function<float()> Lambdas::EventWeight = [&]()
             weight *= 163. / 405.27;
         }
 
-        if (input.year == 2018)
-        {
-            if (input.current_file_name.Contains("www_amcatnlo_1.root") or input.current_file_name.Contains("vh_nonbb_amcatnlo_1.root"))
-            {
-                unsigned int genelemu = 0;
-                for (unsigned int gidx = 0; gidx < www.genPart_pdgId().size(); ++gidx)
-                {
-                    if (abs(www.genPart_motherId()[gidx]) == 24 and (abs(www.genPart_pdgId()[gidx]) == 11 or abs(www.genPart_pdgId()[gidx]) == 13))
-                        ++genelemu;
-                }
-                if (genelemu >= 2) weight = 0.;
-            }
-            if (input.current_file_name.Contains("www_amcatnlo_dilepfilter_1.root"))
-                weight *= 0.119316;
-            if (input.current_file_name.Contains("vh_nonbb_amcatnlo_dilepfilter_"))
-                weight *= 0.088057;
-        }
+        // if (input.year == 2018)
+        // {
+        //     if (input.current_file_name.Contains("www_amcatnlo_1.root") or input.current_file_name.Contains("vh_nonbb_amcatnlo_1.root"))
+        //     {
+        //         unsigned int genelemu = 0;
+        //         for (unsigned int gidx = 0; gidx < www.genPart_pdgId().size(); ++gidx)
+        //         {
+        //             if (abs(www.genPart_motherId()[gidx]) == 24 and (abs(www.genPart_pdgId()[gidx]) == 11 or abs(www.genPart_pdgId()[gidx]) == 13))
+        //                 ++genelemu;
+        //         }
+        //         if (genelemu >= 2) weight = 0.;
+        //     }
+        //     if (input.current_file_name.Contains("www_amcatnlo_dilepfilter_1.root"))
+        //         weight *= 0.119316;
+        //     if (input.current_file_name.Contains("vh_nonbb_amcatnlo_dilepfilter_"))
+        //         weight *= 0.088057;
+        // }
+
+        // if (input.year == 2017)
+        // {
+        //     if (input.current_file_name.Contains("www_amcatnlo_1.root") or input.current_file_name.Contains("vh_nonbb_amcatnlo_1.root"))
+        //     {
+        //         unsigned int genelemu = 0;
+        //         for (unsigned int gidx = 0; gidx < www.genPart_pdgId().size(); ++gidx)
+        //         {
+        //             if (abs(www.genPart_motherId()[gidx]) == 24 and (abs(www.genPart_pdgId()[gidx]) == 11 or abs(www.genPart_pdgId()[gidx]) == 13))
+        //                 ++genelemu;
+        //         }
+        //         if (genelemu >= 2) weight = 0.;
+        //     }
+        //     if (input.current_file_name.Contains("www_2l_amcatnlo_1.root"))
+        //         weight *= 0.119316;
+        //     if (input.current_file_name.Contains("vh_nonbb_amcatnlo_2l_"))
+        //         weight *= 0.088057;
+        // }
 
         if (input.current_file_name.Contains("WWW2018_v5.1.8_v1/skim/grouped/bkgdata/wjets_incl_madgraph_1")) // bkgdata is when it runs over for ddfakes and this has some stupid large weight subtractions if anything this makes it more conservative
         {
@@ -852,20 +870,10 @@ std::function<float()> Lambdas::CutSRTrilep = [&]()
     {
         // If the looper is looping over to do fake estimation, even though it is "SR trilep" selection require nTlep == 2, nLlep = 3. (i.e. AR)
         // This is to ensure that the histogram outputs will have the same name with proper fake estimation
-        if (input.year == 2018)
-        {
-            if (ana.do_fake_estimation)
-                return (www.nVlep() == 3) * (www.nLlep() == 3) * (www.nTlep() == 2) * (www.lep_pt()[0] > 25.) * (www.lep_pt()[1] > 20.) * (www.lep_pt()[2] > 20.);
-            else
-                return (www.nVlep() == 3) * (www.nLlep() == 3) * (www.nTlep() == 3) * (www.lep_pt()[0] > 25.) * (www.lep_pt()[1] > 20.) * (www.lep_pt()[2] > 20.);
-        }
+        if (ana.do_fake_estimation)
+            return (www.nVlep() == 3) * (www.nLlep() == 3) * (www.lep_pt()[0] > 25.) * (www.lep_pt()[1] > 20.) * (www.lep_pt()[2] > 20.);
         else
-        {
-            if (ana.do_fake_estimation)
-                return (www.nVlep() == 3) * (www.nLlep() == 3) * (www.nTlep() == 2) * (www.lep_pt()[0] > 25.) * (www.lep_pt()[1] > 20.) * (www.lep_pt()[2] > 20.);
-            else
-                return (www.nVlep() == 3) * (www.nLlep() == 3) * (www.nTlep() == 3) * (www.lep_pt()[0] > 25.) * (www.lep_pt()[1] > 20.) * (www.lep_pt()[2] > 20.);
-        }
+            return (www.nVlep() == 3) * (www.nLlep() == 3) * (www.lep_pt()[0] > 25.) * (www.lep_pt()[1] > 20.) * (www.lep_pt()[2] > 20.);
     };
 
 //______________________________________________________________________________________________
@@ -1584,6 +1592,10 @@ std::function<float()> Lambdas::SRSSSidemmSel(Variation::ExpSyst expsyst, Variat
 std::function<float()> Lambdas::is0SFOS = [&]() { return www.nSFOS()==0; };
 std::function<float()> Lambdas::is1SFOS = [&]() { return www.nSFOS()==1; };
 std::function<float()> Lambdas::is2SFOS = [&]() { return www.nSFOS()==2; };
+
+// assumes it's 0SFOS with sum_charge == 1 and nVlep == 3
+std::function<float()> Lambdas::is0SFOSeem = [&]() { if (www.nSFOS() != 0) return false; return (abs(www.lep_pdgId()[0] * www.lep_pdgId()[1] * www.lep_pdgId()[2]) == 1573); };
+std::function<float()> Lambdas::is0SFOSmme = [&]() { if (www.nSFOS() != 0) return false; return (abs(www.lep_pdgId()[0] * www.lep_pdgId()[1] * www.lep_pdgId()[2]) == 1859); };
 
 std::function<float()> Lambdas::ThreeLepPresel(Variation::ExpSyst expsyst, Variation::Var var, bool invert_btag)
 {

@@ -305,13 +305,13 @@ def ewksf_v2(histname, ps=0, dd_qcd=None):
     htop_pdf = r.RooHistPdf("top_pdf", "top_pdf", r.RooArgSet(mt), htop)
     hvv_pdf = r.RooHistPdf("vv_pdf", "vv_pdf", r.RooArgSet(mt), hvv)
 
-    nqcd = r.RooRealVar("nqcd", "number of QCD events", h_qcd.Integral(), h_qcd.Integral() * 0.5, h_qcd.Integral() * 1.5) # Allowed to float +/- 50% 
-    newk = r.RooRealVar("newk", "number of EWK events", h_b.Integral(), h_b.Integral() * 0.5, h_b.Integral() * 1.5) # Allowed to float +/- 50% 
+    nqcd = r.RooRealVar("nqcd", "number of QCD events", h_qcd.Integral(), h_qcd.Integral() * 0.5, h_qcd.Integral() * 3.5) # Allowed to float +/- 50% 
+    newk = r.RooRealVar("newk", "number of EWK events", h_b.Integral(), h_b.Integral() * 0.5, h_b.Integral() * 2.5) # Allowed to float +/- 50% 
 
-    nw = r.RooRealVar("nw", "number of EWK events", h_w.Integral(), h_w.Integral() * 0.5, h_w.Integral() * 1.5) # Allowed to float +/- 50% 
-    ndy = r.RooRealVar("ndy", "number of EWK events", h_dy.Integral(), h_dy.Integral() * 0.5, h_dy.Integral() * 1.5) # Allowed to float +/- 50% 
-    ntop = r.RooRealVar("ntop", "number of EWK events", h_top.Integral(), h_top.Integral() * 0.5, h_top.Integral() * 1.5) # Allowed to float +/- 50% 
-    nvv = r.RooRealVar("nvv", "number of EWK events", h_vv.Integral(), h_vv.Integral() * 0.5, h_vv.Integral() * 1.5) # Allowed to float +/- 50% 
+    nw = r.RooRealVar("nw", "number of EWK events", h_w.Integral(), h_w.Integral() * 0.5, h_w.Integral() * 2.5) # Allowed to float +/- 50% 
+    ndy = r.RooRealVar("ndy", "number of EWK events", h_dy.Integral(), h_dy.Integral() * 0.5, h_dy.Integral() * 2.5) # Allowed to float +/- 50% 
+    ntop = r.RooRealVar("ntop", "number of EWK events", h_top.Integral(), h_top.Integral() * 0.5, h_top.Integral() * 2.5) # Allowed to float +/- 50% 
+    nvv = r.RooRealVar("nvv", "number of EWK events", h_vv.Integral(), h_vv.Integral() * 0.5, h_vv.Integral() * 2.5) # Allowed to float +/- 50% 
     model = r.RooAddPdf("model","model", r.RooArgList(hewk_pdf, hqcd_pdf), r.RooArgList(newk, nqcd))
 
     # model = r.RooAddPdf("model","model", r.RooArgList(hqcd_pdf, hw_pdf, hdy_pdf, htop_pdf, hvv_pdf), r.RooArgList(nqcd, nw, ndy, ntop, nvv))

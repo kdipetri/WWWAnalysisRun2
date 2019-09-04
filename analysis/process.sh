@@ -1,6 +1,8 @@
 #!/bin/bash
 
-trap "kill 0" EXIT
+trap '[ ${GOODEXIT} = 0 ] && exit;'"kill 0" EXIT
+
+export GOODEXIT=1
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -25,7 +27,7 @@ usage()
 }
 
 # Default value
-CUTFLOW="-C"
+CUTFLOW="-C -L"
 
 # Command-line opts
 while getopts ":i:t:r:uxksh" OPTION; do
@@ -45,7 +47,7 @@ done
 if [ -z ${INPUT_BABY_VERSION} ]; then usage; fi
 if [ -z ${JOB_TAG}  ]; then usage; fi
 if [ -z ${USERNAME} ]; then USERNAME=mliu; fi
-if [ -z ${DOSKIM} ]; then JOBS=" -L -H"; fi
+if [ -z ${DOSKIM} ]; then JOBS=" -H"; fi
 
 # to shift away the parsed options
 shift $(($OPTIND - 1))
@@ -126,3 +128,5 @@ echo "<== Done hadding histogram outputs!"
 
 echo "histograms are at hists/${INPUT_BABY_VERSION}/${JOB_TAG}/*.root"
 echo "You can find a print out of how long each subjobs took above for reference"
+
+export GOODEXIT=0
