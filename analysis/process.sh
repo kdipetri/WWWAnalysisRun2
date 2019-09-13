@@ -62,8 +62,8 @@ echo "INPUT_BABY_VERSION  : ${INPUT_BABY_VERSION}"
 echo "JOB_TAG             : ${JOB_TAG}"
 echo "================================================"
 
-# DDFAKEDIR=data/
-DDFAKEDIR=bkgdata/
+DDFAKEDIR=data/
+# DDFAKEDIR=bkgdata/
 #if [[ ${INPUT_BABY_VERSION} == *"2016"* ]]; then
 #    DDFAKEDIR=data/
 #fi

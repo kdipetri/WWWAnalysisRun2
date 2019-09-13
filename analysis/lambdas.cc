@@ -129,7 +129,7 @@ std::function<float()> Lambdas::EventWeight = [&]()
         // Xsec error corrections
         //
         if ((input.current_file_name.Contains("wg_lnug_amcatnlo_1.root") or input.current_file_name.Contains("wg_lvg_amcatnlo_1.root")) // Because the short name was different between 2017 and 2018... (stupid of me...)
-                and (input.baby_version.EqualTo("5.1.4") or input.baby_version.EqualTo("5.1.6") or input.baby_version.EqualTo("5.1.8") or input.baby_version.EqualTo("5.1.9") or input.baby_version.Contains("5.2."))
+                and (input.baby_version.EqualTo("5.1.4") or input.baby_version.EqualTo("5.1.6") or input.baby_version.EqualTo("5.1.8") or input.baby_version.EqualTo("5.1.9") or input.baby_version.Contains("5.2." or input.baby_version.Contains("7.0.")))
                 and (input.baby_type.EqualTo("Loose") or input.baby_type.EqualTo("WWW")))
         {
             weight *= 163. / 405.27;
@@ -237,9 +237,9 @@ std::function<float()> Lambdas::TriggerScaleFactor = [&]()
     {
         // 2017 and 2018 trigger scale factors are not available yet (have not done the studies yet)
         // For 2016 the trigsf branch in the TTree holds the proper trigger scalefactors
-        // TODO UPDATE THIS for 2017 and 2018
+        // TODO UPDATE THIS for 2016, 2017 and 2018
         // For now, using 2016 trigger scale factor for 2017/2018 (these are almost identical to 1 anyways...
-        return input.is_data ? 1 : www.trigsf();
+        return 1;
     };
 
 //______________________________________________________________________________________________
@@ -251,7 +251,10 @@ std::function<float()> Lambdas::LeptonScaleFactor = [&]()
         //     return leptonScaleFactors.getScaleFactors(true, ana.do_fake_estimation, input.is_data);
         // else
         //     return www.lepsf();
-        return leptonScaleFactors.getScaleFactors(true, ana.do_fake_estimation, input.is_data);
+        // return 1;
+        // return leptonScaleFactors.getScaleFactors(true, ana.do_fake_estimation, input.is_data);
+        std::cout <<  " scalefactorwvz.LeptonScaleFactor(): " << scalefactorwvz.LeptonScaleFactor() <<  std::endl;
+        return scalefactorwvz.LeptonScaleFactor();
     };
 
 //______________________________________________________________________________________________
@@ -322,9 +325,11 @@ std::function<float()> Lambdas::TriggerSFVariation(Variation::Var var)
         if (input.year == 2016)
         {
             if (var == Variation::Up)
-                return www.trigsf() == 0 ? 0 : www.trigsf_up() / www.trigsf();
+                // TODO UPDATE THIS
+                return float(1);
             else // else if (var == Variation::Down)
-                return www.trigsf() == 0 ? 0 : www.trigsf_dn() / www.trigsf();
+                // TODO UPDATE THIS
+                return float(1);
         }
         else if (input.year == 2017)
         {
@@ -871,9 +876,9 @@ std::function<float()> Lambdas::CutSRTrilep = [&]()
         // If the looper is looping over to do fake estimation, even though it is "SR trilep" selection require nTlep == 2, nLlep = 3. (i.e. AR)
         // This is to ensure that the histogram outputs will have the same name with proper fake estimation
         if (ana.do_fake_estimation)
-            return (www.nVlep() == 3) * (www.nLlep() == 3) * (www.lep_pt()[0] > 25.) * (www.lep_pt()[1] > 20.) * (www.lep_pt()[2] > 20.);
+            return (www.nVlep() == 3) * (www.lep_pt()[0] > 25.) * (www.lep_pt()[1] > 20.) * (www.lep_pt()[2] > 20.);
         else
-            return (www.nVlep() == 3) * (www.nLlep() == 3) * (www.lep_pt()[0] > 25.) * (www.lep_pt()[1] > 20.) * (www.lep_pt()[2] > 20.);
+            return (www.nVlep() == 3) * (www.lep_pt()[0] > 25.) * (www.lep_pt()[1] > 20.) * (www.lep_pt()[2] > 20.);
     };
 
 //______________________________________________________________________________________________
@@ -1156,12 +1161,12 @@ std::function<float()> Lambdas::NBveto(Variation::ExpSyst expsyst, Variation::Va
         {
             if (not (
                         jetVar(expsyst, var,
-                            [&]() { return (www.nb_up()   !=0); },
-                            [&]() { return (www.nb_dn()   !=0); },
-                            [&]() { return (www.nb()      !=0); },
-                            [&]() { return (www.nb_jerup()!=0); },
-                            [&]() { return (www.nb_jerdn()!=0); },
-                            [&]() { return (www.nb_jer()  !=0); }
+                            [&]() { return (www.nb_up()   ==1); },
+                            [&]() { return (www.nb_dn()   ==1); },
+                            [&]() { return (www.nb()      ==1); },
+                            [&]() { return (www.nb_jerup()==1); },
+                            [&]() { return (www.nb_jerdn()==1); },
+                            [&]() { return (www.nb_jer()  ==1); }
                             )()                                    )) return false;
         }
         return true;

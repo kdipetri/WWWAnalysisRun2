@@ -1,5 +1,7 @@
 #include "main.h"
 
+RooUtil::EventList eventlist_sync;
+
 //_______________________________________________________________________________________________________
 int main(int argc, char** argv)
 {
@@ -543,6 +545,10 @@ int main(int argc, char** argv)
     // ana.histograms.addHistogram("mu_relIso03EAv2Max"       ,  180 , 0.0     , 0.4    , [&]() { float reliso = -999; for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep) { if (fabs(www.lep_pdgId()[ilep]) == 13) { float tmpreliso = www.lep_relIso03EAv2Lep()[ilep]; if (tmpreliso > reliso) { reliso = tmpreliso; } } } return reliso; });
     ana.histograms.addHistogram("el_relIso03EAMax"         ,  180 , 0.0     , 0.4    , [&]() { float reliso = -999; for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep) { if (fabs(www.lep_pdgId()[ilep]) == 11) { float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep]; if (tmpreliso > reliso) { reliso = tmpreliso; } } } return reliso; });
     ana.histograms.addHistogram("mu_relIso03EAMax"         ,  180 , 0.0     , 0.4    , [&]() { float reliso = -999; for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep) { if (fabs(www.lep_pdgId()[ilep]) == 13) { float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep]; if (tmpreliso > reliso) { reliso = tmpreliso; } } } return reliso; });
+    ana.histograms.addHistogram("el_relIso03EAMax_zoom"    ,  180 , 0.0     , 0.2    , [&]() { float reliso = -999; for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep) { if (fabs(www.lep_pdgId()[ilep]) == 11) { float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep]; if (tmpreliso > reliso) { reliso = tmpreliso; } } } return std::min((double)reliso, 0.199); });
+    ana.histograms.addHistogram("mu_relIso03EAMax_zoom"    ,  180 , 0.0     , 0.2    , [&]() { float reliso = -999; for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep) { if (fabs(www.lep_pdgId()[ilep]) == 13) { float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep]; if (tmpreliso > reliso) { reliso = tmpreliso; } } } return std::min((double)reliso, 0.199); });
+    ana.histograms.addHistogram("el_relIso03EApogMax"      ,  180 , 0.0     , 0.4    , [&]() { float reliso = -999; for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep) { if (fabs(www.lep_pdgId()[ilep]) == 11) { float tmpreliso = www.lep_relIso03EA()[ilep]; if (tmpreliso > reliso) { reliso = tmpreliso; } } } return reliso; });
+    ana.histograms.addHistogram("mu_relIso04DBpogMax"      ,  180 , 0.0     , 0.4    , [&]() { float reliso = -999; for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep) { if (fabs(www.lep_pdgId()[ilep]) == 13) { float tmpreliso = www.lep_relIso04DB()[ilep]; if (tmpreliso > reliso) { reliso = tmpreliso; } } } return reliso; });
     ana.histograms.addHistogram("mu_pt_trail"              ,  180 , 0.0     , 150    , [&]() { float pt = 999; for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep) { if (fabs(www.lep_pdgId()[ilep]) == 13) { float tmppt = www.lep_pt()[ilep]; if (tmppt < pt) { pt = tmppt; } } } return pt; });
     ana.histograms.addHistogram("el_pt_trail"              ,  180 , 0.0     , 150    , [&]() { float pt = 999; for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep) { if (fabs(www.lep_pdgId()[ilep]) == 11) { float tmppt = www.lep_pt()[ilep]; if (tmppt < pt) { pt = tmppt; } } } return pt; });
     ana.histograms.addHistogram("mu_pt_lead"               ,  180 , 0.0     , 150    , [&]() { float pt =-999; for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep) { if (fabs(www.lep_pdgId()[ilep]) == 13) { float tmppt = www.lep_pt()[ilep]; if (tmppt > pt) { pt = tmppt; } } } return pt; });
@@ -556,10 +562,14 @@ int main(int argc, char** argv)
     ana.histograms.addHistogram("lep_ptcorr"               ,  180 , 0.      , 150    , [&]() { return fakerates.getPtCorr()                                                        ; });
     ana.histograms.addHistogram("el_ptcorr"                ,  {0., 20., 25., 30., 35., 50., 150.}, [&]() { return abs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) == 11 ? fakerates.getPtCorr() : 0; });
     ana.histograms.addHistogram("mu_ptcorr"                ,  {0., 20., 25., 30., 35., 50., 150.}, [&]() { return abs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) == 13 ? fakerates.getPtCorr() : 0; });
-    ana.histograms.addHistogram("el_ptcorr_cen"            ,  {0., 20., 25., 30., 35., 50., 150.}, [&]() { return abs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) == 11 and fabs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) < 1.6 ? fakerates.getPtCorr() : 0; });
-    ana.histograms.addHistogram("mu_ptcorr_cen"            ,  {0., 20., 25., 30., 35., 50., 150.}, [&]() { return abs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) == 13 and fabs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) < 1.6 ? fakerates.getPtCorr() : 0; });
-    ana.histograms.addHistogram("el_ptcorr_fwd"            ,  {0., 20., 25., 30., 35., 50., 150.}, [&]() { return abs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) == 11 and fabs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) >=1.6 ? fakerates.getPtCorr() : 0; });
-    ana.histograms.addHistogram("mu_ptcorr_fwd"            ,  {0., 20., 25., 30., 35., 50., 150.}, [&]() { return abs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) == 13 and fabs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) >=1.6 ? fakerates.getPtCorr() : 0; });
+    ana.histograms.addHistogram("el_ptcorr_cen"            ,  {0., 20., 25., 30., 35., 50., 150.}, [&]() { return abs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) == 11 and fabs(www.lep_eta()[fakerates.getFakeLepIndex()]) < 1.6 ? fakerates.getPtCorr() : -999; });
+    ana.histograms.addHistogram("mu_ptcorr_cen"            ,  {0., 20., 25., 30., 35., 50., 150.}, [&]() { return abs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) == 13 and fabs(www.lep_eta()[fakerates.getFakeLepIndex()]) < 1.6 ? fakerates.getPtCorr() : -999; });
+    ana.histograms.addHistogram("el_ptcorr_fwd"            ,  {0., 20., 25., 30., 35., 50., 150.}, [&]() { return abs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) == 11 and fabs(www.lep_eta()[fakerates.getFakeLepIndex()]) >=1.6 ? fakerates.getPtCorr() : -999; });
+    ana.histograms.addHistogram("mu_ptcorr_fwd"            ,  {0., 20., 25., 30., 35., 50., 150.}, [&]() { return abs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) == 13 and fabs(www.lep_eta()[fakerates.getFakeLepIndex()]) >=1.6 ? fakerates.getPtCorr() : -999; });
+    ana.histograms.addHistogram("el_pt_cen"                ,  {0., 20., 25., 30., 35., 50., 150.}, [&]() { return abs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) == 11 and fabs(www.lep_eta()[fakerates.getFakeLepIndex()]) < 1.6 ? www.lep_pt()[fakerates.getFakeLepIndex()] : -999; });
+    ana.histograms.addHistogram("mu_pt_cen"                ,  {0., 20., 25., 30., 35., 50., 150.}, [&]() { return abs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) == 13 and fabs(www.lep_eta()[fakerates.getFakeLepIndex()]) < 1.6 ? www.lep_pt()[fakerates.getFakeLepIndex()] : -999; });
+    ana.histograms.addHistogram("el_pt_fwd"                ,  {0., 20., 25., 30., 35., 50., 150.}, [&]() { return abs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) == 11 and fabs(www.lep_eta()[fakerates.getFakeLepIndex()]) >=1.6 ? www.lep_pt()[fakerates.getFakeLepIndex()] : -999; });
+    ana.histograms.addHistogram("mu_pt_fwd"                ,  {0., 20., 25., 30., 35., 50., 150.}, [&]() { return abs(www.lep_pdgId()[fakerates.getFakeLepIndex()]) == 13 and fabs(www.lep_eta()[fakerates.getFakeLepIndex()]) >=1.6 ? www.lep_pt()[fakerates.getFakeLepIndex()] : -999; });
     ana.histograms.addHistogram("nj"                       ,  7   , 0.      , 7.     , [&]() { return www.nj()                                                                     ; });
     ana.histograms.addHistogram("nj30"                     ,  7   , 0.      , 7.     , [&]() { return www.nj30()                                                                   ; });
     ana.histograms.addHistogram("nb"                       ,  5   , 0.      , 5.     , [&]() { return www.nb()                                                                     ; });
@@ -979,17 +989,15 @@ int main(int argc, char** argv)
         ana.cutflow.addCutToLastActiveCut("SR2SFOSFull"      , UNITY                                                        , UNITY);
 
         ana.cutflow.getCut("SR0SFOS");
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSZveto"     , [&]() { return fabs(www.Mee3L() - 91.1876) > 10.; }, UNITY);
         ana.cutflow.addCutToLastActiveCut("SR0SFOSNb"        , Lambdas::NBveto(Variation::JES, Variation::Nominal)          , Lambdas::BTagScaleFactor);
         ana.cutflow.getCut("SR0SFOSNb");
         ana.cutflow.addCutToLastActiveCut("SR0SFOSeem"       , Lambdas::is0SFOSeem                                          , UNITY);
-        ana.cutflow.addCutToLastActiveCut("SR0SFOSeemRelIso" , [&]() { float reliso = -999; for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep) { if (fabs(www.lep_pdgId()[ilep]) == 11) { float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep]; if (tmpreliso > reliso) { reliso = tmpreliso; } } } return (input.year == 2018 ? (reliso < 0.025) : (reliso < 0.025)); }, UNITY);
-        ana.cutflow.addCutToLastActiveCut("SR0SFOSeemZveto"  , [&]() { return fabs(www.Mee3L() - 91.1876) > 10.; }, UNITY);
-        ana.cutflow.addCutToLastActiveCut("SR0SFOSeemFull"   , UNITY, UNITY);
-        ana.cutflow.getCut("SR0SFOSeem");
-        ana.cutflow.addCutToLastActiveCut("SR0SFOSeemInvIso" , [&]()
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSeemRelIso" , [&]()
                 {
                     float maxreliso = -999;
                     float minreliso = 999;
+                    float otherreliso = 999;
                     for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep)
                     {
                         if (fabs(www.lep_pdgId()[ilep]) == 11)
@@ -1004,21 +1012,81 @@ int main(int argc, char** argv)
                                 minreliso = tmpreliso;
                             }
                         }
+                        else
+                        {
+                            otherreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                        }
                     }
-                    return (minreliso < 0.025 and maxreliso > 0.025);
+                    if (ana.do_fake_estimation)
+                        return (minreliso < 0.025 and maxreliso > 0.1 and otherreliso < 0.1);
+                    else
+                        return (maxreliso < 0.025 and otherreliso < 0.1);
                 }, UNITY);
-        ana.cutflow.addCutToLastActiveCut("SR0SFOSeemInvIsoZveto"  , [&]() { return fabs(www.Mee3L() - 91.1876) > 10.; }, UNITY);
-        ana.cutflow.addCutToLastActiveCut("SR0SFOSeemInvIsoFull"   , UNITY, UNITY);
-
-        ana.cutflow.getCut("SR0SFOSNb");
-        ana.cutflow.addCutToLastActiveCut("SR0SFOSmme"       , Lambdas::is0SFOSmme                                          , UNITY);
-        ana.cutflow.addCutToLastActiveCut("SR0SFOSmmeRelIso" , [&]() { float reliso = -999; for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep) { if (fabs(www.lep_pdgId()[ilep]) == 13) { float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep]; if (tmpreliso > reliso) { reliso = tmpreliso; } } } return (reliso < 0.04); }, UNITY);
-        ana.cutflow.addCutToLastActiveCut("SR0SFOSmmeFull"   , UNITY, UNITY);
-        ana.cutflow.getCut("SR0SFOSmme");
-        ana.cutflow.addCutToLastActiveCut("SR0SFOSmmeInvIso" , [&]()
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSeemFull"   , UNITY, UNITY);
+        ana.cutflow.getCut("SR0SFOSeem");
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSeemInvIso" , [&]()
                 {
                     float maxreliso = -999;
                     float minreliso = 999;
+                    float otherreliso = 999;
+                    for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep)
+                    {
+                        if (fabs(www.lep_pdgId()[ilep]) == 11)
+                        {
+                            float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                            if (tmpreliso > maxreliso)
+                            {
+                                maxreliso = tmpreliso;
+                            }
+                            if (tmpreliso < minreliso)
+                            {
+                                minreliso = tmpreliso;
+                            }
+                        }
+                        else
+                        {
+                            otherreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                        }
+                    }
+                    return (minreliso < 0.025 and maxreliso > 0.1 and otherreliso < 0.1);
+                }, UNITY);
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSeemInvIsoFull"   , UNITY, UNITY);
+        ana.cutflow.getCut("SR0SFOSeem");
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSeemMeasIso" , [&]()
+                {
+                    float maxreliso = -999;
+                    float minreliso = 999;
+                    float otherreliso = 999;
+                    for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep)
+                    {
+                        if (fabs(www.lep_pdgId()[ilep]) == 11)
+                        {
+                            float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                            if (tmpreliso > maxreliso)
+                            {
+                                maxreliso = tmpreliso;
+                            }
+                            if (tmpreliso < minreliso)
+                            {
+                                minreliso = tmpreliso;
+                            }
+                        }
+                        else
+                        {
+                            otherreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                        }
+                    }
+                    return (minreliso < 0.1  and maxreliso > 0.1 and otherreliso < 0.1) or (maxreliso < 0.1   and otherreliso < 0.1 and not input.is_data);
+                }, UNITY);
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSeemMeasIsoFull"   , UNITY, UNITY);
+
+        ana.cutflow.getCut("SR0SFOSNb");
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSmme"       , Lambdas::is0SFOSmme                                          , UNITY);
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSmmeRelIso" , [&]()
+                {
+                    float maxreliso = -999;
+                    float minreliso = 999;
+                    float otherreliso = 999;
                     for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep)
                     {
                         if (fabs(www.lep_pdgId()[ilep]) == 13)
@@ -1033,22 +1101,227 @@ int main(int argc, char** argv)
                                 minreliso = tmpreliso;
                             }
                         }
+                        else
+                        {
+                            otherreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                        }
                     }
-                    return (minreliso < 0.04 and maxreliso > 0.04);
+                    if (ana.do_fake_estimation)
+                        return (minreliso < 0.04 and maxreliso > 0.1 and otherreliso < 0.1);
+                    else
+                        return (maxreliso < 0.04 and otherreliso < 0.1);
+                }, UNITY);
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSmmeFull"   , UNITY, UNITY);
+        ana.cutflow.getCut("SR0SFOSmme");
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSmmeInvIso" , [&]()
+                {
+                    float maxreliso = -999;
+                    float minreliso = 999;
+                    float otherreliso = 999;
+                    for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep)
+                    {
+                        if (fabs(www.lep_pdgId()[ilep]) == 13)
+                        {
+                            float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                            if (tmpreliso > maxreliso)
+                            {
+                                maxreliso = tmpreliso;
+                            }
+                            if (tmpreliso < minreliso)
+                            {
+                                minreliso = tmpreliso;
+                            }
+                        }
+                        else
+                        {
+                            otherreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                        }
+                    }
+                    return (minreliso < 0.04 and maxreliso > 0.1 and otherreliso < 0.1);
                 }, UNITY);
         ana.cutflow.addCutToLastActiveCut("SR0SFOSmmeInvIsoFull"   , UNITY, UNITY);
+        ana.cutflow.getCut("SR0SFOSmme");
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSmmeMeasIso" , [&]()
+                {
+                    float maxreliso = -999;
+                    float minreliso = 999;
+                    float otherreliso = 999;
+                    for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep)
+                    {
+                        if (fabs(www.lep_pdgId()[ilep]) == 13)
+                        {
+                            float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                            if (tmpreliso > maxreliso)
+                            {
+                                maxreliso = tmpreliso;
+                            }
+                            if (tmpreliso < minreliso)
+                            {
+                                minreliso = tmpreliso;
+                            }
+                        }
+                        else
+                        {
+                            otherreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                        }
+                    }
+                    return (minreliso < 0.1 and maxreliso > 0.1 and otherreliso < 0.1) or (maxreliso < 0.1 and otherreliso < 0.1 and not input.is_data);
+                }, UNITY);
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSmmeMeasIsoFull"   , UNITY, UNITY);
 
         ana.cutflow.getCut("SR0SFOS");
         ana.cutflow.addCutToLastActiveCut("SR0SFOSBCR"          , Lambdas::NBveto(Variation::JES, Variation::Nominal, true)    , Lambdas::BTagScaleFactor);
         ana.cutflow.getCut("SR0SFOSBCR");
         ana.cutflow.addCutToLastActiveCut("SR0SFOSBCReem"       , Lambdas::is0SFOSeem                                          , UNITY);
         ana.cutflow.addCutToLastActiveCut("SR0SFOSBCReemRelIso" , [&]() { float reliso = -999; for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep) { if (fabs(www.lep_pdgId()[ilep]) == 11) { float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep]; if (tmpreliso > reliso) { reliso = tmpreliso; } } } return (input.year == 2018 ? (reliso < 0.025) : (reliso < 0.025)); }, UNITY);
-        ana.cutflow.addCutToLastActiveCut("SR0SFOSBCReemZveto"  , [&]() { return fabs(www.Mee3L() - 91.1876) > 10.; }, UNITY);
         ana.cutflow.addCutToLastActiveCut("SR0SFOSBCReemFull"   , UNITY, UNITY);
         ana.cutflow.getCut("SR0SFOSBCR");
         ana.cutflow.addCutToLastActiveCut("SR0SFOSBCRmme"       , Lambdas::is0SFOSmme                                          , UNITY);
-        ana.cutflow.addCutToLastActiveCut("SR0SFOSBCRmmeRelIso" , [&]() { float reliso = -999; for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep) { if (fabs(www.lep_pdgId()[ilep]) == 13) { float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep]; if (tmpreliso > reliso) { reliso = tmpreliso; } } } return (reliso < 0.04); }, UNITY);
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSBCRmmeRelIso" , [&]() 
+                {
+                    float maxreliso = -999;
+                    float minreliso = 999;
+                    float otherreliso = 999;
+                    for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep)
+                    {
+                        if (fabs(www.lep_pdgId()[ilep]) == 13)
+                        {
+                            float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                            if (tmpreliso > maxreliso)
+                            {
+                                maxreliso = tmpreliso;
+                            }
+                            if (tmpreliso < minreliso)
+                            {
+                                minreliso = tmpreliso;
+                            }
+                        }
+                        else
+                        {
+                            otherreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                        }
+                    }
+                    if (ana.do_fake_estimation)
+                        return (minreliso < 0.04 and maxreliso > 0.1 and otherreliso < 0.1);
+                    else
+                        return (maxreliso < 0.04 and otherreliso < 0.1);
+                }, UNITY);
         ana.cutflow.addCutToLastActiveCut("SR0SFOSBCRmmeFull"   , UNITY, UNITY);
+        ana.cutflow.getCut("SR0SFOSBCRmme");
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSBCRmmeInvIso" , [&]() 
+                {
+                    float maxreliso = -999;
+                    float minreliso = 999;
+                    float otherreliso = 999;
+                    for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep)
+                    {
+                        if (fabs(www.lep_pdgId()[ilep]) == 13)
+                        {
+                            float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                            if (tmpreliso > maxreliso)
+                            {
+                                maxreliso = tmpreliso;
+                            }
+                            if (tmpreliso < minreliso)
+                            {
+                                minreliso = tmpreliso;
+                            }
+                        }
+                        else
+                        {
+                            otherreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                        }
+                    }
+                    return (minreliso < 0.04 and maxreliso > 0.1 and otherreliso < 0.1);
+                }, UNITY);
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSBCRmmeInvIsoFull"   , UNITY, UNITY);
+        ana.cutflow.getCut("SR0SFOSBCRmme");
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSBCRmmeMeasIso" , [&]() 
+                {
+                    float maxreliso = -999;
+                    float minreliso = 999;
+                    float otherreliso = 999;
+                    for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep)
+                    {
+                        if (fabs(www.lep_pdgId()[ilep]) == 13)
+                        {
+                            float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                            if (tmpreliso > maxreliso)
+                            {
+                                maxreliso = tmpreliso;
+                            }
+                            if (tmpreliso < minreliso)
+                            {
+                                minreliso = tmpreliso;
+                            }
+                        }
+                        else
+                        {
+                            otherreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                        }
+                    }
+                    return (minreliso < 0.1 and maxreliso > 0.1 and otherreliso < 0.1) or (maxreliso < 0.1 and otherreliso < 0.1);
+                }, UNITY);
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSBCRmmeMeasIsoFull"   , UNITY, UNITY);
+        ana.cutflow.getCut("SR0SFOSBCReem");
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSBCReemMeasIso" , [&]() 
+                {
+                    float maxreliso = -999;
+                    float minreliso = 999;
+                    float otherreliso = 999;
+                    for (unsigned int ilep = 0; ilep < www.lep_pt().size(); ++ilep)
+                    {
+                        if (fabs(www.lep_pdgId()[ilep]) == 11)
+                        {
+                            float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                            if (tmpreliso > maxreliso)
+                            {
+                                maxreliso = tmpreliso;
+                            }
+                            if (tmpreliso < minreliso)
+                            {
+                                minreliso = tmpreliso;
+                            }
+                        }
+                        else
+                        {
+                            otherreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                        }
+                    }
+                    return (minreliso < 0.1 and maxreliso > 0.1 and otherreliso < 0.1) or (maxreliso < 0.1 and otherreliso < 0.1);
+                }, UNITY);
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSBCReemMeasIsoFull"   , UNITY, UNITY);
+
+        ana.cutflow.getCut("SR0SFOSNb");
+        ana.cutflow.addCutToLastActiveCut("SR0SFOS3LID", [&]() 
+                {
+                    if (not (www.nTlep3L() == 3            )) return false;
+                    if (not (www.Mll3L() > 20.             )) return false;
+                    if (not (abs(www.M3l()-91.1876) > 10.  )) return false;
+                    if (not (abs(www.Mee3L()-91.1876) > 20.)) return false;
+                    return true;
+                }, UNITY);
+
+        ana.cutflow.getCut("SR0SFOSNb");
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSSSID", [&]() 
+                {
+                    bool pass = true;
+                    for (unsigned ilep = 0; ilep < www.lep_pt().size(); ++ilep)
+                    {
+                        float reliso = 0;
+                        if (input.year == 2016)
+                            reliso = www.lep_relIso03EAv2Lep()[ilep];
+                        else
+                            reliso = www.lep_relIso03EALep()[ilep];
+                        pass &= reliso < 0.03;
+                    }
+                    return pass;
+                }, UNITY);
+        ana.cutflow.getCut("SR0SFOSNb");
+        ana.cutflow.addCutToLastActiveCut("SR0SFOSSSIDPt", [&]() 
+                {
+                    return www.nTlepSS() == 3;
+                }, UNITY);
 
         //************************************************************************************************************************************************************************************************
         //
@@ -1653,7 +1926,7 @@ int main(int argc, char** argv)
 
     }
 
-    ana.cutflow.filterCuts({"SR0SFOSFull", "SR0SFOSeemFull", "SR0SFOSmmeFull", "SR0SFOSBCReemFull", "SR0SFOSBCRmmeFull", "SR0SFOSmmeInvIsoFull", "SR0SFOSeemInvIsoFull"});
+    // ana.cutflow.filterCuts({"SR0SFOSFull", "SR0SFOSeemFull", "SR0SFOSmmeFull", "SR0SFOSBCReemFull", "SR0SFOSBCRmmeFull", "SR0SFOSBCRmmeInvIsoFull", "SR0SFOSBCReemMeasIsoFull", "SR0SFOSBCRmmeMeasIsoFull", "SR0SFOSmmeInvIsoFull", "SR0SFOSmmeMeasIsoFull", "SR0SFOSeemMeasIsoFull", "SR0SFOSeemInvIsoFull", "SR0SFOS3LID", "SR0SFOSSSID", "SR0SFOSSSIDPt"});
 
 
     //
@@ -1727,6 +2000,9 @@ int main(int argc, char** argv)
 // 8. Looping events
 //
 //*************************************************************************************************************
+
+    eventlist_sync.load("eventlist.txt");
+    scalefactorwvz.loadScaleFactors();
 
     while (ana.looper.nextEvent())
     {
@@ -1913,6 +2189,12 @@ int main(int argc, char** argv)
                 // ana.tx->setBranch<int>("SR2SFOSFull", ana.cutflow.getCut("SR2SFOSFull").pass);
                 ana.looper.fillSkim();
             }
+        }
+
+        if (eventlist_sync.has(www.run(), www.lumi(), www.evt()))
+        {
+            std::cout << "here" << std::endl;
+            ana.cutflow.printCuts();
         }
 
     }

@@ -251,9 +251,10 @@ def plot(histnames, ps=0, sf=None, sfqcd=None, output_suffix="", dd_qcd=None):
             d = E(data_bc, data_be)
             b = E(bkg_bc, bkg_be)
             n = d - b
-            if isSS:
-                if d.err > n.val:
-                    n.val = d.err
+            print n, d, b
+            # if isSS:
+            #     if d.err > n.val:
+            #         n.val = d.err
 
             h_ddqcd.SetBinContent(ii, n.val)
             h_ddqcd.SetBinError(ii, n.err)
@@ -305,20 +306,20 @@ def ewksf_v2(histname, ps=0, dd_qcd=None):
     htop_pdf = r.RooHistPdf("top_pdf", "top_pdf", r.RooArgSet(mt), htop)
     hvv_pdf = r.RooHistPdf("vv_pdf", "vv_pdf", r.RooArgSet(mt), hvv)
 
-    nqcd = r.RooRealVar("nqcd", "number of QCD events", h_qcd.Integral(), h_qcd.Integral() * 0.5, h_qcd.Integral() * 3.5) # Allowed to float +/- 50% 
-    newk = r.RooRealVar("newk", "number of EWK events", h_b.Integral(), h_b.Integral() * 0.5, h_b.Integral() * 2.5) # Allowed to float +/- 50% 
+    nqcd = r.RooRealVar("nqcd", "number of QCD events", h_qcd.Integral(), h_qcd.Integral() * 0.1, h_qcd.Integral() * 2.0) # Allowed to float +/- 50% 
+    newk = r.RooRealVar("newk", "number of EWK events", h_b.Integral(), h_b.Integral() * 0.0, h_b.Integral() * 3.5) # Allowed to float +/- 50% 
 
-    nw = r.RooRealVar("nw", "number of EWK events", h_w.Integral(), h_w.Integral() * 0.5, h_w.Integral() * 2.5) # Allowed to float +/- 50% 
-    ndy = r.RooRealVar("ndy", "number of EWK events", h_dy.Integral(), h_dy.Integral() * 0.5, h_dy.Integral() * 2.5) # Allowed to float +/- 50% 
-    ntop = r.RooRealVar("ntop", "number of EWK events", h_top.Integral(), h_top.Integral() * 0.5, h_top.Integral() * 2.5) # Allowed to float +/- 50% 
-    nvv = r.RooRealVar("nvv", "number of EWK events", h_vv.Integral(), h_vv.Integral() * 0.5, h_vv.Integral() * 2.5) # Allowed to float +/- 50% 
+    nw = r.RooRealVar("nw", "number of EWK events", h_w.Integral(), h_w.Integral() * 0.5, h_w.Integral() * 1.5) # Allowed to float +/- 50% 
+    ndy = r.RooRealVar("ndy", "number of EWK events", h_dy.Integral(), h_dy.Integral() * 0.5, h_dy.Integral() * 1.5) # Allowed to float +/- 50% 
+    ntop = r.RooRealVar("ntop", "number of EWK events", h_top.Integral(), h_top.Integral() * 0.5, h_top.Integral() * 1.5) # Allowed to float +/- 50% 
+    nvv = r.RooRealVar("nvv", "number of EWK events", h_vv.Integral(), h_vv.Integral() * 0.5, h_vv.Integral() * 1.5) # Allowed to float +/- 50% 
     model = r.RooAddPdf("model","model", r.RooArgList(hewk_pdf, hqcd_pdf), r.RooArgList(newk, nqcd))
 
     # model = r.RooAddPdf("model","model", r.RooArgList(hqcd_pdf, hw_pdf, hdy_pdf, htop_pdf, hvv_pdf), r.RooArgList(nqcd, nw, ndy, ntop, nvv))
     if "__MET" in histname:
         roofit_range = r.RooFit.Range(0, 250)
     elif "Mu" in histname:
-        roofit_range = r.RooFit.Range(0, 100)
+        roofit_range = r.RooFit.Range(0, 180)
     elif "Loose" in histname:
         roofit_range = r.RooFit.Range(0, 180)
     else:
@@ -433,6 +434,7 @@ def add_systematics(h_num, herr_num):
 def fakerate(num, den, ps=0, sf=0, sferr=0, tfile=None, sfden=0, sfdenerr=0):
 
     # Obtain histograms
+    print sf
     h_num    , h_num_qcd_mu    , h_num_qcd_esum    , h_num_qcd_el    , h_num_qcd_bc    = get_fakerate_histograms(num , den , ps , sf, sfden)
     if isinstance(sf, list):
         herr_num , herr_num_qcd_mu , herr_num_qcd_esum , herr_num_qcd_el , herr_num_qcd_bc = get_fakerate_histograms(num , den , ps , sferr, sfdenerr)
@@ -458,7 +460,7 @@ def fakerate(num, den, ps=0, sf=0, sferr=0, tfile=None, sfden=0, sfdenerr=0):
                "hist_line_none": True,
                "show_bkg_errors": True,
                "lumi_value" : lumi,
-               "yaxis_range": [0., 0.4] if "Mu" in num else ([0., 1.2] if isSS else [0., 1.8]),
+               "yaxis_range": [0., 0.8] if "Mu" in num else ([0., 1.2] if isSS else [0., 3.0]),
                }
 
     bgs_list = [h_num_qcd_mu] if "Mu" in num else [h_num_qcd_esum]
@@ -670,6 +672,52 @@ def main():
     ewksf_v2("OneMuTightMR2__pt")
     ewksf_v2("OneMuMR2__ptcorr")
     ewksf_v2("OneMuTightMR2__ptcorr")
+    # if isSS:
+    #     sf01, sf01err, _ = ewksf_v2("OneMuLooseEta0Pt1__MT")
+    #     sf02, sf02err, _ = ewksf_v2("OneMuLooseEta0Pt2__MT")
+    #     sf03, sf03err, _ = ewksf_v2("OneMuLooseEta0Pt3__MT")
+    #     sf04, sf04err, _ = ewksf_v2("OneMuLooseEta0Pt4__MT")
+    #     sf11, sf11err, _ = ewksf_v2("OneMuLooseEta1Pt1__MT")
+    #     sf12, sf12err, _ = ewksf_v2("OneMuLooseEta1Pt2__MT")
+    #     sf13, sf13err, _ = ewksf_v2("OneMuLooseEta1Pt3__MT")
+    #     sf14, sf14err, _ = ewksf_v2("OneMuLooseEta1Pt4__MT")
+    #     sfden = [0., 0., sf01, sf02, sf03, sf04, 0., 0., sf11, sf12, sf13, sf14]
+    #     sfdenerr = [0., 0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, 0., 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err]
+    #     sf01, sf01err, _ = ewksf_v2("OneMuEta0Pt1__MT")
+    #     sf02, sf02err, _ = ewksf_v2("OneMuEta0Pt2__MT")
+    #     sf03, sf03err, _ = ewksf_v2("OneMuEta0Pt3__MT")
+    #     sf04, sf04err, _ = ewksf_v2("OneMuEta0Pt4__MT")
+    #     sf11, sf11err, _ = ewksf_v2("OneMuEta1Pt1__MT")
+    #     sf12, sf12err, _ = ewksf_v2("OneMuEta1Pt2__MT")
+    #     sf13, sf13err, _ = ewksf_v2("OneMuEta1Pt3__MT")
+    #     sf14, sf14err, _ = ewksf_v2("OneMuEta1Pt4__MT")
+    #     sf = [0., 0., sf01, sf02, sf03, sf04, 0., 0., sf11, sf12, sf13, sf14]
+    #     sferr = [0., 0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, 0., 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err]
+    # else:
+    #     sf01, sf01err, _ = ewksf_v2("OneMuLooseEta0Pt0__MT")
+    #     sf02, sf02err, _ = ewksf_v2("OneMuLooseEta0Pt1__MT")
+    #     sf03, sf03err, _ = ewksf_v2("OneMuLooseEta0Pt2__MT")
+    #     sf04, sf04err, _ = ewksf_v2("OneMuLooseEta0Pt3__MT")
+    #     sf05, sf05err, _ = ewksf_v2("OneMuLooseEta0Pt4__MT")
+    #     sf11, sf11err, _ = ewksf_v2("OneMuLooseEta1Pt0__MT")
+    #     sf12, sf12err, _ = ewksf_v2("OneMuLooseEta1Pt1__MT")
+    #     sf13, sf13err, _ = ewksf_v2("OneMuLooseEta1Pt2__MT")
+    #     sf14, sf14err, _ = ewksf_v2("OneMuLooseEta1Pt3__MT")
+    #     sf15, sf15err, _ = ewksf_v2("OneMuLooseEta1Pt4__MT")
+    #     sfden = [0., sf01, sf02, sf03, sf04, sf05, 0., sf11, sf12, sf13, sf14, sf15]
+    #     sfdenerr = [0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, sf05-sf05err, 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err, sf15-sf15err]
+    #     sf01, sf01err, _ = ewksf_v2("OneMuEta0Pt0__MT")
+    #     sf02, sf02err, _ = ewksf_v2("OneMuEta0Pt1__MT")
+    #     sf03, sf03err, _ = ewksf_v2("OneMuEta0Pt2__MT")
+    #     sf04, sf04err, _ = ewksf_v2("OneMuEta0Pt3__MT")
+    #     sf05, sf05err, _ = ewksf_v2("OneMuEta0Pt4__MT")
+    #     sf11, sf11err, _ = ewksf_v2("OneMuEta1Pt0__MT")
+    #     sf12, sf12err, _ = ewksf_v2("OneMuEta1Pt1__MT")
+    #     sf13, sf13err, _ = ewksf_v2("OneMuEta1Pt2__MT")
+    #     sf14, sf14err, _ = ewksf_v2("OneMuEta1Pt3__MT")
+    #     sf15, sf15err, _ = ewksf_v2("OneMuEta1Pt4__MT")
+    #     sf = [0., sf01, sf02, sf03, sf04, sf05, 0., sf11, sf12, sf13, sf14, sf15]
+    #     sferr = [0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, sf05-sf05err, 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err, sf15-sf15err]
     if isSS:
         sf01, sf01err, _ = ewksf_v2("OneMuLooseEta0Pt1__MT")
         sf02, sf02err, _ = ewksf_v2("OneMuLooseEta0Pt2__MT")
@@ -696,26 +744,22 @@ def main():
         sf02, sf02err, _ = ewksf_v2("OneMuLooseEta0Pt1__MT")
         sf03, sf03err, _ = ewksf_v2("OneMuLooseEta0Pt2__MT")
         sf04, sf04err, _ = ewksf_v2("OneMuLooseEta0Pt3__MT")
-        sf05, sf05err, _ = ewksf_v2("OneMuLooseEta0Pt4__MT")
         sf11, sf11err, _ = ewksf_v2("OneMuLooseEta1Pt0__MT")
         sf12, sf12err, _ = ewksf_v2("OneMuLooseEta1Pt1__MT")
         sf13, sf13err, _ = ewksf_v2("OneMuLooseEta1Pt2__MT")
         sf14, sf14err, _ = ewksf_v2("OneMuLooseEta1Pt3__MT")
-        sf15, sf15err, _ = ewksf_v2("OneMuLooseEta1Pt4__MT")
-        sfden = [0., sf01, sf02, sf03, sf04, sf05, 0., sf11, sf12, sf13, sf14, sf15]
-        sfdenerr = [0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, sf05-sf05err, 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err, sf15-sf15err]
+        sfden = [0., sf01, sf02, sf03, sf04, 0., sf11, sf12, sf13, sf14]
+        sfdenerr = [0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err]
         sf01, sf01err, _ = ewksf_v2("OneMuEta0Pt0__MT")
         sf02, sf02err, _ = ewksf_v2("OneMuEta0Pt1__MT")
         sf03, sf03err, _ = ewksf_v2("OneMuEta0Pt2__MT")
         sf04, sf04err, _ = ewksf_v2("OneMuEta0Pt3__MT")
-        sf05, sf05err, _ = ewksf_v2("OneMuEta0Pt4__MT")
         sf11, sf11err, _ = ewksf_v2("OneMuEta1Pt0__MT")
         sf12, sf12err, _ = ewksf_v2("OneMuEta1Pt1__MT")
         sf13, sf13err, _ = ewksf_v2("OneMuEta1Pt2__MT")
         sf14, sf14err, _ = ewksf_v2("OneMuEta1Pt3__MT")
-        sf15, sf15err, _ = ewksf_v2("OneMuEta1Pt4__MT")
-        sf = [0., sf01, sf02, sf03, sf04, sf05, 0., sf11, sf12, sf13, sf14, sf15]
-        sferr = [0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, sf05-sf05err, 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err, sf15-sf15err]
+        sf = [0., sf01, sf02, sf03, sf04, 0., sf11, sf12, sf13, sf14]
+        sferr = [0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err]
     fakerate("OneMuTightMR2__ptcorretarolled" , "OneMuMR2__ptcorretarolled", sf=sf, sferr=sferr, sfden=sfden, sfdenerr=sfdenerr, tfile=ofile)
 
     ewksf_v2("OneElLoose__nVlep")
@@ -728,6 +772,54 @@ def main():
     ewksf_v2("OneElTightMR2__pt")
     ewksf_v2("OneElMR2__ptcorr")
     ewksf_v2("OneElTightMR2__ptcorr")
+
+    # if isSS:
+    #     sf01, sf01err, _ = ewksf_v2("OneElLooseEta0Pt1__MT")
+    #     sf02, sf02err, _ = ewksf_v2("OneElLooseEta0Pt2__MT")
+    #     sf03, sf03err, _ = ewksf_v2("OneElLooseEta0Pt3__MT")
+    #     sf04, sf04err, _ = ewksf_v2("OneElLooseEta0Pt4__MT")
+    #     sf11, sf11err, _ = ewksf_v2("OneElLooseEta1Pt1__MT")
+    #     sf12, sf12err, _ = ewksf_v2("OneElLooseEta1Pt2__MT")
+    #     sf13, sf13err, _ = ewksf_v2("OneElLooseEta1Pt3__MT")
+    #     sf14, sf14err, _ = ewksf_v2("OneElLooseEta1Pt4__MT")
+    #     sfden = [0., 0., sf01, sf02, sf03, sf04, 0., 0., sf11, sf12, sf13, sf14]
+    #     sfdenerr = [0., 0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, 0., 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err]
+    #     sf01, sf01err, _ = ewksf_v2("OneElEta0Pt1__MT")
+    #     sf02, sf02err, _ = ewksf_v2("OneElEta0Pt2__MT")
+    #     sf03, sf03err, _ = ewksf_v2("OneElEta0Pt3__MT")
+    #     sf04, sf04err, _ = ewksf_v2("OneElEta0Pt4__MT")
+    #     sf11, sf11err, _ = ewksf_v2("OneElEta1Pt1__MT")
+    #     sf12, sf12err, _ = ewksf_v2("OneElEta1Pt2__MT")
+    #     sf13, sf13err, _ = ewksf_v2("OneElEta1Pt3__MT")
+    #     sf14, sf14err, _ = ewksf_v2("OneElEta1Pt4__MT")
+    #     sf = [0., 0., sf01, sf02, sf03, sf04, 0., 0., sf11, sf12, sf13, sf14]
+    #     sferr = [0., 0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, 0., 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err]
+    # else:
+    #     sf01, sf01err, _ = ewksf_v2("OneElLooseEta0Pt0__MT")
+    #     sf02, sf02err, _ = ewksf_v2("OneElLooseEta0Pt1__MT")
+    #     sf03, sf03err, _ = ewksf_v2("OneElLooseEta0Pt2__MT")
+    #     sf04, sf04err, _ = ewksf_v2("OneElLooseEta0Pt3__MT")
+    #     sf05, sf05err, _ = ewksf_v2("OneElLooseEta0Pt4__MT")
+    #     sf11, sf11err, _ = ewksf_v2("OneElLooseEta1Pt0__MT")
+    #     sf12, sf12err, _ = ewksf_v2("OneElLooseEta1Pt1__MT")
+    #     sf13, sf13err, _ = ewksf_v2("OneElLooseEta1Pt2__MT")
+    #     sf14, sf14err, _ = ewksf_v2("OneElLooseEta1Pt3__MT")
+    #     sf15, sf15err, _ = ewksf_v2("OneElLooseEta1Pt4__MT")
+    #     sfden = [0., sf01, sf02, sf03, sf04, sf05, 0., sf11, sf12, sf13, sf14, sf15]
+    #     sfdenerr = [0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, sf05-sf05err, 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err, sf15-sf15err]
+    #     sf01, sf01err, _ = ewksf_v2("OneElEta0Pt0__MT")
+    #     sf02, sf02err, _ = ewksf_v2("OneElEta0Pt1__MT")
+    #     sf03, sf03err, _ = ewksf_v2("OneElEta0Pt2__MT")
+    #     sf04, sf04err, _ = ewksf_v2("OneElEta0Pt3__MT")
+    #     sf05, sf05err, _ = ewksf_v2("OneElEta0Pt4__MT")
+    #     sf11, sf11err, _ = ewksf_v2("OneElEta1Pt0__MT")
+    #     sf12, sf12err, _ = ewksf_v2("OneElEta1Pt1__MT")
+    #     sf13, sf13err, _ = ewksf_v2("OneElEta1Pt2__MT")
+    #     sf14, sf14err, _ = ewksf_v2("OneElEta1Pt3__MT")
+    #     sf15, sf15err, _ = ewksf_v2("OneElEta1Pt4__MT")
+    #     sf = [0., sf01, sf02, sf03, sf04, sf05, 0., sf11, sf12, sf13, sf14, sf15]
+    #     sferr = [0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, sf05-sf05err, 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err, sf15-sf15err]
+
     if isSS:
         sf01, sf01err, _ = ewksf_v2("OneElLooseEta0Pt1__MT")
         sf02, sf02err, _ = ewksf_v2("OneElLooseEta0Pt2__MT")
@@ -754,26 +846,23 @@ def main():
         sf02, sf02err, _ = ewksf_v2("OneElLooseEta0Pt1__MT")
         sf03, sf03err, _ = ewksf_v2("OneElLooseEta0Pt2__MT")
         sf04, sf04err, _ = ewksf_v2("OneElLooseEta0Pt3__MT")
-        sf05, sf05err, _ = ewksf_v2("OneElLooseEta0Pt4__MT")
         sf11, sf11err, _ = ewksf_v2("OneElLooseEta1Pt0__MT")
         sf12, sf12err, _ = ewksf_v2("OneElLooseEta1Pt1__MT")
         sf13, sf13err, _ = ewksf_v2("OneElLooseEta1Pt2__MT")
         sf14, sf14err, _ = ewksf_v2("OneElLooseEta1Pt3__MT")
-        sf15, sf15err, _ = ewksf_v2("OneElLooseEta1Pt4__MT")
-        sfden = [0., sf01, sf02, sf03, sf04, sf05, 0., sf11, sf12, sf13, sf14, sf15]
-        sfdenerr = [0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, sf05-sf05err, 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err, sf15-sf15err]
+        sfden = [0., sf01, sf02, sf03, sf04, 0., sf11, sf12, sf13, sf14]
+        sfdenerr = [0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err]
         sf01, sf01err, _ = ewksf_v2("OneElEta0Pt0__MT")
         sf02, sf02err, _ = ewksf_v2("OneElEta0Pt1__MT")
         sf03, sf03err, _ = ewksf_v2("OneElEta0Pt2__MT")
         sf04, sf04err, _ = ewksf_v2("OneElEta0Pt3__MT")
-        sf05, sf05err, _ = ewksf_v2("OneElEta0Pt4__MT")
         sf11, sf11err, _ = ewksf_v2("OneElEta1Pt0__MT")
         sf12, sf12err, _ = ewksf_v2("OneElEta1Pt1__MT")
         sf13, sf13err, _ = ewksf_v2("OneElEta1Pt2__MT")
         sf14, sf14err, _ = ewksf_v2("OneElEta1Pt3__MT")
-        sf15, sf15err, _ = ewksf_v2("OneElEta1Pt4__MT")
-        sf = [0., sf01, sf02, sf03, sf04, sf05, 0., sf11, sf12, sf13, sf14, sf15]
-        sferr = [0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, sf05-sf05err, 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err, sf15-sf15err]
+        sf = [0., sf01, sf02, sf03, sf04, 0., sf11, sf12, sf13, sf14]
+        sferr = [0., sf01-sf01err, sf02-sf02err, sf03-sf03err, sf04-sf04err, 0., sf11-sf11err, sf12-sf12err, sf13-sf13err, sf14-sf14err]
+
     fakerate("OneElTightMR2__ptcorretarolled" , "OneElMR2__ptcorretarolled", sf=sf, sferr=sferr, sfden=sfden, sfdenerr=sfdenerr, tfile=ofile)
 
     closure_plot("MuClosureTight__MT", "MuClosureTightPredict__MT")

@@ -7,6 +7,7 @@
 #include "AnalysisConfig.h"
 #include "InputConfig.h"
 #include "scalefactors.h"
+#include "scalefactors_wvz.h"
 #include "lambdas.h"
 
 #ifdef WITHCORE

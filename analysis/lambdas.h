@@ -5,6 +5,7 @@
 #include "InputConfig.h"
 #include "wwwtree.h"
 #include "scalefactors.h"
+#include "scalefactors_wvz.h"
 #include "rooutil.h"
 
 #define DOCACHE

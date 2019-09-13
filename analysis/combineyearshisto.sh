@@ -1,9 +1,11 @@
-TAG=test_201909030410
-YEAR2016=hists/WWW3L2016_v5.2.1/${TAG}
-YEAR2017=hists/WWW3L2017_v5.2.1/${TAG}
-YEAR2018=hists/WWW3L2018_v5.2.1/${TAG}
+TAG=test_v1
+TYPE=VVV
+VERSION=v7.0.0
+YEAR2016=hists/${TYPE}2016_${VERSION}/${TAG}
+YEAR2017=hists/${TYPE}2017_${VERSION}/${TAG}
+YEAR2018=hists/${TYPE}2018_${VERSION}/${TAG}
 
-YEARCOMB=hists/combineyears3L_v5.2.1/${TAG}
+YEARCOMB=hists/combineyears3L_${VERSION}/${TAG}
 
 if [ ! -d "$YEARCOMB" ]; then
     echo "making dir $YEARCOMB"

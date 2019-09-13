@@ -298,6 +298,7 @@ if hist_filters:
             extraoptions={
                 "nbins":int(args.nbins),
                 "print_yield":True,
+                "yield_prec":4,
                 "yaxis_log":args.yaxis_log,
                 "legend_scalex": 1.8,
                 "legend_scaley": 1.1,

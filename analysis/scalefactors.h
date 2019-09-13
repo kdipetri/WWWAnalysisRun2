@@ -633,8 +633,8 @@ class FakeRates
 
         const float muiso_ss_thresh = 0.03;
         const float eliso_ss_thresh = 0.03;
-        const float muiso_3l_thresh = 0.07;
-        const float eliso_3l_thresh = 0.05;
+        const float muiso_3l_thresh = 0.1;
+        const float eliso_3l_thresh = 0.1;
 
         FakeRates()
         {
@@ -691,12 +691,12 @@ class FakeRates
         {
             if (not histmap_2016_fr_ss_el        ) histmap_2016_fr_ss_el         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2016_ss.root:El_ptcorretarolled_data_fakerate");
             if (not histmap_2016_fr_ss_mu        ) histmap_2016_fr_ss_mu         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2016_ss.root:Mu_ptcorretarolled_data_fakerate");
-            if (not histmap_2016_fr_3l_el        ) histmap_2016_fr_3l_el         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2016_3l.root:El_ptcorretarolled_data_fakerate");
-            if (not histmap_2016_fr_3l_mu        ) histmap_2016_fr_3l_mu         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2016_3l.root:Mu_ptcorretarolled_data_fakerate");
+            if (not histmap_2016_fr_3l_el        ) histmap_2016_fr_3l_el         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/v2/fakerate_2016_3l.root:El_ptcorretarolled_data_fakerate");
+            if (not histmap_2016_fr_3l_mu        ) histmap_2016_fr_3l_mu         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/v2/fakerate_2016_3l.root:Mu_ptcorretarolled_data_fakerate");
             if (not histmap_2016_fr_ss_el_closure) histmap_2016_fr_ss_el_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2016_ss.root:El_ptcorretarolled_data_fakerateclosure");
             if (not histmap_2016_fr_ss_mu_closure) histmap_2016_fr_ss_mu_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2016_ss.root:Mu_ptcorretarolled_data_fakerateclosure");
-            if (not histmap_2016_fr_3l_el_closure) histmap_2016_fr_3l_el_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2016_3l.root:El_ptcorretarolled_data_fakerateclosure");
-            if (not histmap_2016_fr_3l_mu_closure) histmap_2016_fr_3l_mu_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2016_3l.root:Mu_ptcorretarolled_data_fakerateclosure");
+            if (not histmap_2016_fr_3l_el_closure) histmap_2016_fr_3l_el_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/v2/fakerate_2016_3l.root:El_ptcorretarolled_data_fakerateclosure");
+            if (not histmap_2016_fr_3l_mu_closure) histmap_2016_fr_3l_mu_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/v2/fakerate_2016_3l.root:Mu_ptcorretarolled_data_fakerateclosure");
             histmap_fr_ss_el         = histmap_2016_fr_ss_el;
             histmap_fr_ss_mu         = histmap_2016_fr_ss_mu;
             histmap_fr_3l_el         = histmap_2016_fr_3l_el;
@@ -711,12 +711,12 @@ class FakeRates
         {
             if (not histmap_2017_fr_ss_el        ) histmap_2017_fr_ss_el         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2017_ss.root:El_ptcorretarolled_data_fakerate");
             if (not histmap_2017_fr_ss_mu        ) histmap_2017_fr_ss_mu         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2017_ss.root:Mu_ptcorretarolled_data_fakerate");
-            if (not histmap_2017_fr_3l_el        ) histmap_2017_fr_3l_el         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2017_3l.root:El_ptcorretarolled_data_fakerate");
-            if (not histmap_2017_fr_3l_mu        ) histmap_2017_fr_3l_mu         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2017_3l.root:Mu_ptcorretarolled_data_fakerate");
+            if (not histmap_2017_fr_3l_el        ) histmap_2017_fr_3l_el         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/v2/fakerate_2017_3l.root:El_ptcorretarolled_data_fakerate");
+            if (not histmap_2017_fr_3l_mu        ) histmap_2017_fr_3l_mu         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/v2/fakerate_2017_3l.root:Mu_ptcorretarolled_data_fakerate");
             if (not histmap_2017_fr_ss_el_closure) histmap_2017_fr_ss_el_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2017_ss.root:El_ptcorretarolled_data_fakerateclosure");
             if (not histmap_2017_fr_ss_mu_closure) histmap_2017_fr_ss_mu_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2017_ss.root:Mu_ptcorretarolled_data_fakerateclosure");
-            if (not histmap_2017_fr_3l_el_closure) histmap_2017_fr_3l_el_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2017_3l.root:El_ptcorretarolled_data_fakerateclosure");
-            if (not histmap_2017_fr_3l_mu_closure) histmap_2017_fr_3l_mu_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2017_3l.root:Mu_ptcorretarolled_data_fakerateclosure");
+            if (not histmap_2017_fr_3l_el_closure) histmap_2017_fr_3l_el_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/v2/fakerate_2017_3l.root:El_ptcorretarolled_data_fakerateclosure");
+            if (not histmap_2017_fr_3l_mu_closure) histmap_2017_fr_3l_mu_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/v2/fakerate_2017_3l.root:Mu_ptcorretarolled_data_fakerateclosure");
             histmap_fr_ss_el         = histmap_2017_fr_ss_el;
             histmap_fr_ss_mu         = histmap_2017_fr_ss_mu;
             histmap_fr_3l_el         = histmap_2017_fr_3l_el;
@@ -731,12 +731,12 @@ class FakeRates
         {
             if (not histmap_2018_fr_ss_el        ) histmap_2018_fr_ss_el         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2018_ss.root:El_ptcorretarolled_data_fakerate");
             if (not histmap_2018_fr_ss_mu        ) histmap_2018_fr_ss_mu         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2018_ss.root:Mu_ptcorretarolled_data_fakerate");
-            if (not histmap_2018_fr_3l_el        ) histmap_2018_fr_3l_el         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2018_3l.root:El_ptcorretarolled_data_fakerate");
-            if (not histmap_2018_fr_3l_mu        ) histmap_2018_fr_3l_mu         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2018_3l.root:Mu_ptcorretarolled_data_fakerate");
+            if (not histmap_2018_fr_3l_el        ) histmap_2018_fr_3l_el         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/v2/fakerate_2018_3l.root:El_ptcorretarolled_data_fakerate");
+            if (not histmap_2018_fr_3l_mu        ) histmap_2018_fr_3l_mu         = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/v2/fakerate_2018_3l.root:Mu_ptcorretarolled_data_fakerate");
             if (not histmap_2018_fr_ss_el_closure) histmap_2018_fr_ss_el_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2018_ss.root:El_ptcorretarolled_data_fakerateclosure");
             if (not histmap_2018_fr_ss_mu_closure) histmap_2018_fr_ss_mu_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2018_ss.root:Mu_ptcorretarolled_data_fakerateclosure");
-            if (not histmap_2018_fr_3l_el_closure) histmap_2018_fr_3l_el_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2018_3l.root:El_ptcorretarolled_data_fakerateclosure");
-            if (not histmap_2018_fr_3l_mu_closure) histmap_2018_fr_3l_mu_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/fakerate_2018_3l.root:Mu_ptcorretarolled_data_fakerateclosure");
+            if (not histmap_2018_fr_3l_el_closure) histmap_2018_fr_3l_el_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/v2/fakerate_2018_3l.root:El_ptcorretarolled_data_fakerateclosure");
+            if (not histmap_2018_fr_3l_mu_closure) histmap_2018_fr_3l_mu_closure = new RooUtil::HistMap("/nfs-7/userdata/phchang/scalefactors/fakerates/v2/fakerate_2018_3l.root:Mu_ptcorretarolled_data_fakerateclosure");
             histmap_fr_ss_el         = histmap_2018_fr_ss_el;
             histmap_fr_ss_mu         = histmap_2018_fr_ss_mu;
             histmap_fr_3l_el         = histmap_2018_fr_3l_el;
@@ -747,7 +747,7 @@ class FakeRates
             histmap_fr_3l_mu_closure = histmap_2018_fr_3l_mu_closure;
         }
 
-        int getFakeLepIndex()
+        int getFakeLepIndex_v1()
         {
             // Check the number of leptons
             if ((www.nLlep() - 1) != www.nTlep())
@@ -766,6 +766,37 @@ class FakeRates
             }
 
             return index;
+        }
+
+        int getFakeLepIndex_v2()
+        {
+            // Figure out the index by whichever one is the loose but not tight
+            int index = -1;
+            for (int ilep = 0; ilep < www.nLlep(); ++ilep)
+            {
+                float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                if (tmpreliso > 0.1)
+                    index = ilep;
+            }
+            return index;
+        }
+
+        int getTrueFakeLepIndex()
+        {
+            // Figure out the index by whichever one is the loose but not tight
+            int index = -1;
+            for (int ilep = 0; ilep < www.nLlep(); ++ilep)
+            {
+                float tmpreliso = input.year == 2016 ? www.lep_relIso03EAv2Lep()[ilep] : www.lep_relIso03EALep()[ilep];
+                if (tmpreliso > 0.1)
+                    index = ilep;
+            }
+            return index;
+        }
+
+        int getFakeLepIndex()
+        {
+            return getFakeLepIndex_v2();
         }
 
         float getPtCorr()
@@ -804,7 +835,7 @@ class FakeRates
         float getFakeFactor(int err=0, int lepflav=0, bool doclosureerr=false)
         {
             int index = getFakeLepIndex();
-            float ptcorr = getPtCorr();
+            float ptcorrraw = getPtCorr();
             float fr = 0;
 
             // Create an int to indicate which lepton id fakerate to use
@@ -821,6 +852,8 @@ class FakeRates
             float nom_fr = 0;
             float closure_err_pct = 0;
             float closure_ff = 0;
+
+            float ptcorr = std::min(49.999, (double) ptcorrraw);
 
             // std::cout <<  " index: " << index <<  " www.lep_pdgId()[index]: " << www.lep_pdgId()[index] <<  " lepversion: " << lepversion <<  std::endl;
 
@@ -928,7 +961,10 @@ class FakeRates
             {
                 return 0;
             }
-            return fr / (1 - fr);
+            if (lepversion == 0)
+                return fr / (1 - fr);
+            else
+                return fr;
         }
 
 };
