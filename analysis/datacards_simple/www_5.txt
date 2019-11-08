@@ -1,0 +1,21 @@
+imax 1 number of bins
+jmax * number of processes
+kmax * number of nuisance parameters
+--------------------------------------------------------------------------------------------------------------------------------------------
+bin           bin5
+observation   132.0
+--------------------------------------------------------------------------------------------------------------------------------------------
+bin                                     bin5             bin5             bin5             bin5             bin5             bin5             
+process                                 0                1                2                3                4                5                
+process                                 signal           photon           qflip            ddfakes          lostlep          prompt           
+rate                                    6.476            33.717           1.079            12.583           45.070           39.812           
+--------------------------------------------------------------------------------------------------------------------------------------------
+promptSyst                 lnN          -                -                -                -                -                1.2              
+ddfakesSyst                lnN          -                -                -                1.5              -                -                
+lostlepSyst                lnN          -                -                -                -                0.0266           -                
+qflipSyst                  lnN          -                -                1.5              -                -                -                
+photonSyst                 lnN          -                1.5              -                -                -                -                
+signal_bin5_stat           lnN          1.1068           -                -                -                -                -                
+photon_bin5_stat           lnN          -                1.2968           -                -                -                -                
+qflip_bin5_stat            lnN          -                -                1.3975           -                -                -                
+prompt_bin5_stat           lnN          -                -                -                -                -                1.0490           
