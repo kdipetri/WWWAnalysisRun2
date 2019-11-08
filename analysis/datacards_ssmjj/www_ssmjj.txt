@@ -5,7 +5,7 @@ kmax * number of nuisance parameters
 shapes * * www_ssmjj_input_shapes.root $PROCESS $PROCESS_$SYSTEMATIC
 ---------------------------------------------------------------------------------------------------------------------------
 bin           bin1
-observation   65
+observation   98
 ---------------------------------------------------------------------------------------------------------------------------
 bin                                     bin1             bin1             bin1             bin1             bin1             
 process                                 0                1                2                3                4                

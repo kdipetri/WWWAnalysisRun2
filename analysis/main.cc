@@ -500,9 +500,9 @@ int main(int argc, char** argv)
     ana.histograms.addHistogram("DPhi3lMET"                ,  160 , 0.      , 3.2    , [&]() { return www.DPhi3lMET()                                                              ; });
     ana.histograms.addHistogram("Ptll"                     ,  180 , 0.      , 300.   , [&]() { return (input.oldbaby ? www.Pt3l() : www.Pt2l())                                    ; });
     ana.histograms.addHistogram("nvtx"                     ,  60  , 0.      , 60.    , [&]() { return www.nVert()                                                                  ; });
-    //ana.histograms.addHistogram("MjjZoom"                  ,  180 , 0.      , 150.   , [&]() { return www.Mjj()                                                                    ; });
+    ana.histograms.addHistogram("MjjZoom"                  ,  180 , 0.      , 150.   , [&]() { return www.Mjj()                                                                    ; });
     ana.histograms.addHistogram("Mjj"                      ,  180 , 0.      , 300.   , [&]() { return www.Mjj()                                                                    ; });
-    //ana.histograms.addHistogram("MjjLZoom"                 ,  180 , 0.      , 500.   , [&]() { return www.MjjL()                                                                   ; });
+    ana.histograms.addHistogram("MjjLZoom"                 ,  180 , 0.      , 500.   , [&]() { return www.MjjL()                                                                   ; });
     ana.histograms.addHistogram("MjjL"                     ,  180 , 0.      , 750.   , [&]() { return www.MjjL()                                                                   ; });
     ana.histograms.addHistogram("DetajjL"                  ,  180 , 0.      , 5.     , [&]() { return www.DetajjL()                                                                ; });
     //ana.histograms.addHistogram("MjjVBF"                   ,  180 , 0.      , 750.   , [&]() { return www.MjjVBF()                                                                 ; });
@@ -1606,6 +1606,7 @@ int main(int argc, char** argv)
     {
         // Book histograms only at the end cuts
         ana.cutflow.bookHistogramsForEndCuts(ana.histograms);
+        ana.cutflow.bookHistogramsForCut(ana.histograms,"SRSSmmKinSel" );
 
         // And NO book cutflows!
     }

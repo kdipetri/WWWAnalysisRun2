@@ -15,9 +15,33 @@
 #
 #combine -M ProfileLikelihood --significance www_ssmumu_datacard.root -t -1 --expectSignal=1 --rMin -50 --rMax 50
 
-
+#
 # mjj SR
-#cp /home/users/kdipetri/public_html/WWWAnalysisRun2/analysis/datacards_ssmjj/* .
-#text2workspace.py www_ssmjj.txt
+#
 
-combine -n SignifExp -M Significance --significance www_ssmjj.root -t -1 --expectSignal=1
+# Copy datacards to stat dir
+cp /home/users/kdipetri/public_html/WWWAnalysisRun2/analysis/datacards_ssmjj/* datacards_ssmjj/.
+
+# setup for output
+rm output.txt
+touch output.txt
+
+# loop through options 
+#for hist in MjjLZoom ; do
+#	for rebin in 2 ; do
+for hist in Mjj MjjLZoom ; do
+	for rebin in 2 3 4 5 6; do
+	
+	   # save the configuraiton 
+	   echo "${hist} rebin${rebin}" >> output.txt  
+	
+	   # make root workspace
+	   text2workspace.py datacards_ssmjj/www_ssmjj___${hist}_rebin${rebin}.txt	
+
+	   # compute expected 
+	   combine -n SignifExp -M Significance --significance datacards_ssmjj/www_ssmjj___${hist}_rebin${rebin}.root -t -1 --expectSignal=1 | grep "Significance:" >> output.txt 
+	
+	   # compute observed
+	   combine -n SignifExp -M Significance --significance datacards_ssmjj/www_ssmjj___${hist}_rebin${rebin}.root | grep "Significance:" >> output.txt 
+	done
+done

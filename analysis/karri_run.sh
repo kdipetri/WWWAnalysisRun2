@@ -1,7 +1,7 @@
 
-sh process.sh -s -i Loose2016_v5.3.2 -t karri_test_wsys -r phchang 
-sh process.sh -s -i Loose2017_v5.3.2 -t karri_test_wsys -r phchang 
-sh process.sh -s -i Loose2018_v5.3.2 -t karri_test_wsys -r phchang 
+sh process.sh -s -i Loose2016_v5.3.2 -t karri_test_binning -r phchang 
+sh process.sh -s -i Loose2017_v5.3.2 -t karri_test_binning -r phchang 
+sh process.sh -s -i Loose2018_v5.3.2 -t karri_test_binning -r phchang 
 
 # run like wvz
 # sh runall.sh -b mtsum -t WVZ -v v0.1.12.7 -s -1 -2
@@ -24,7 +24,7 @@ sh process.sh -s -i Loose2018_v5.3.2 -t karri_test_wsys -r phchang
 
 # combinings years
 
-sh combineyearshisto.sh -t karri_test_wsys -b Loose -v v5.3.2 
+sh combineyearshisto.sh -t karri_test_binning -b Loose -v v5.3.2 
 
 # Options with arguments:"
 #   -t    tag used when running the looper (e.g. test_2019_10_12_0610)"

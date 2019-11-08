@@ -1,7 +1,10 @@
-python plot.py -i "hists/combineyearsLoose_v5.3.2/karri_test_wsys/"  -u -m #yields  
+#python plot.py -i "hists/combineyearsLoose_v5.3.2/karri_test_wsys/"  -u -m #yields  
 #python plot.py -i "hists/combineyearsLoose_v5.3.2/karri_test_wsys/"  -m  SRSSeeKinSel__Mjj 
 #python plot.py -i "hists/combineyearsLoose_v5.3.2/karri_test_wsys/"  -m  SRSSemKinSel__Mjj
-#python plot.py -i "hists/combineyearsLoose_v5.3.2/karri_test_wsys/"  -m  SRSSmmKinSel__Mjj
+python plot.py -d -i "hists/combineyearsLoose_v5.3.2/karri_test_binning/"  -m  SRSSmmKinSel__Mjj
+python plot.py -d -i "hists/combineyearsLoose_v5.3.2/karri_test_binning/"  -m  SRSSmmKinSel__MjjL
+python plot.py -d -i "hists/combineyearsLoose_v5.3.2/karri_test_binning/"  -m  SRSSmmKinSel__MjjZoom
+python plot.py -d -i "hists/combineyearsLoose_v5.3.2/karri_test_binning/"  -m  SRSSmmKinSel__MjjLZoom
 
 
 # options
