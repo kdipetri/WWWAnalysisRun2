@@ -30,18 +30,21 @@ touch output.txt
 #for hist in MjjLZoom ; do
 #	for rebin in 2 ; do
 for hist in Mjj MjjLZoom ; do
-	for rebin in 2 3 4 5 6; do
+   #for rebin in 2 3 4 5 6; do
+   for rebin in 3 4 6 9 12 18; do
+	for sel in SRSSmmKinSel SRSSmmKinSelJESUp SRSSmmKinSelJESDown ; do
 	
 	   # save the configuraiton 
-	   echo "${hist} rebin${rebin}" >> output.txt  
+	   echo "${sel}__${hist} rebin${rebin}" >> output.txt  
 	
 	   # make root workspace
-	   text2workspace.py datacards_ssmjj/www_ssmjj___${hist}_rebin${rebin}.txt	
+	   text2workspace.py datacards_ssmjj/www_ssmjj_${sel}___${hist}_rebin${rebin}.txt	
 
 	   # compute expected 
-	   combine -n SignifExp -M Significance --significance datacards_ssmjj/www_ssmjj___${hist}_rebin${rebin}.root -t -1 --expectSignal=1 | grep "Significance:" >> output.txt 
+	   combine -n SignifExp -M Significance --significance datacards_ssmjj/www_ssmjj_${sel}___${hist}_rebin${rebin}.root -t -1 --expectSignal=1 | grep "Significance:" >> output.txt 
 	
 	   # compute observed
-	   combine -n SignifExp -M Significance --significance datacards_ssmjj/www_ssmjj___${hist}_rebin${rebin}.root | grep "Significance:" >> output.txt 
+	   # combine -n SignifExp -M Significance --significance datacards_ssmjj/www_ssmjj___${hist}_rebin${rebin}.root | grep "Significance:" >> output.txt 
 	done
+   done
 done

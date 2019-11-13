@@ -1,10 +1,15 @@
 #python plot.py -i "hists/combineyearsLoose_v5.3.2/karri_test_wsys/"  -u -m #yields  
 #python plot.py -i "hists/combineyearsLoose_v5.3.2/karri_test_wsys/"  -m  SRSSeeKinSel__Mjj 
 #python plot.py -i "hists/combineyearsLoose_v5.3.2/karri_test_wsys/"  -m  SRSSemKinSel__Mjj
-python plot.py -d -i "hists/combineyearsLoose_v5.3.2/karri_test_binning/"  -m  SRSSmmKinSel__Mjj
-python plot.py -d -i "hists/combineyearsLoose_v5.3.2/karri_test_binning/"  -m  SRSSmmKinSel__MjjL
-python plot.py -d -i "hists/combineyearsLoose_v5.3.2/karri_test_binning/"  -m  SRSSmmKinSel__MjjZoom
-python plot.py -d -i "hists/combineyearsLoose_v5.3.2/karri_test_binning/"  -m  SRSSmmKinSel__MjjLZoom
+
+#python plot.py -i "hists/combineyearsLoose_v5.3.2/binning_and_sys/"  -m  SRSSmmKinSel__Mjj
+#python plot.py -i "hists/combineyearsLoose_v5.3.2/binning_and_sys/"  -m  SRSSmmKinSel__MjjL
+#python plot.py -i "hists/combineyearsLoose_v5.3.2/binning_and_sys/"  -m  SRSSmmKinSel__MjjZoom
+#python plot.py -i "hists/combineyearsLoose_v5.3.2/binning_and_sys/"  -m  SRSSmmKinSel__MjjLZoom
+python plot.py -i "hists/combineyearsLoose_v5.3.2/binning_and_sys/"  -m  SRSSmmKinSelJESUp__Mjj
+python plot.py -i "hists/combineyearsLoose_v5.3.2/binning_and_sys/"  -m  SRSSmmKinSelJESUp__MjjLZoom
+python plot.py -i "hists/combineyearsLoose_v5.3.2/binning_and_sys/"  -m  SRSSmmKinSelJESDown__Mjj
+python plot.py -i "hists/combineyearsLoose_v5.3.2/binning_and_sys/"  -m  SRSSmmKinSelJESDown__MjjLZoom
 
 
 # options

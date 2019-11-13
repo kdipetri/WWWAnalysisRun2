@@ -21,16 +21,16 @@ histpath = sys.argv[1]
 systs = []
 
 # 20% symmetric error on prompt
-systs.append( ("promptSyst"  , "lnN" , [] , {"signal":0 , "prompt":"1.15" , "photon":0     , "qflip":0     , "ddfakes":0     , "lostlep":0}) )
-systs.append( ("ddfakesSyst" , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":0     , "qflip":0     , "ddfakes":"1.5" , "lostlep":0}) )
-systs.append( ("lostlepSyst" , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":0     , "qflip":0     , "ddfakes":0     , "lostlep":1.2}) )
-systs.append( ("qflipSyst"   , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":0     , "qflip":"1.15" , "ddfakes":0     , "lostlep":0}) )
-systs.append( ("photonSyst"  , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":"1.15" , "qflip":0     , "ddfakes":0     , "lostlep":0}) )
+systs.append( ("promptSyst"  , "lnN" , [] , {"signal":0 , "prompt":"1.15" , "photon":0     , "qflip":0     , "fakes":0     , "lostlep":0}) )
+systs.append( ("fakesSyst" , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":0     , "qflip":0     , "fakes":"1.5" , "lostlep":0}) )
+systs.append( ("lostlepSyst" , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":0     , "qflip":0     , "fakes":0     , "lostlep":1.2}) )
+systs.append( ("qflipSyst"   , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":0     , "qflip":"1.15" , "fakes":0     , "lostlep":0}) )
+systs.append( ("photonSyst"  , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":"1.15" , "qflip":0     , "fakes":0     , "lostlep":0}) )
 
 fnames = [
         "{}/photon.root".format(histpath),
         "{}/qflip.root".format(histpath),
-        "{}/ddfakes.root".format(histpath),
+        "{}/fakes.root".format(histpath),
         "{}/lostlep.root".format(histpath),
         "{}/prompt.root".format(histpath),
         "{}/signal.root".format(histpath),
@@ -82,14 +82,14 @@ sig_hists = [hists[-1]]
 
 bkg_hists[0].SetTitle("photon")
 bkg_hists[1].SetTitle("qflip")
-bkg_hists[2].SetTitle("ddfakes")
+bkg_hists[2].SetTitle("fakes")
 bkg_hists[3].SetTitle("lostlep")
 bkg_hists[4].SetTitle("prompt")
 sig_hists[0].SetTitle("signal")
 
 # Now create data card writer
 # bkg2 does not need stat error as it is taken care of by CR stats
-d = dw.DataCardWriter(sig=sig_hists[0], bgs=bkg_hists, data=None, systs=systs, no_stat_procs=["ddfakes", "lostlep"])
+d = dw.DataCardWriter(sig=sig_hists[0], bgs=bkg_hists, data=None, systs=systs, no_stat_procs=["fakes", "lostlep"])
 
 for i in xrange(1, sig_hists[0].GetNbinsX()+1):
     d.set_bin(i)

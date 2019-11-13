@@ -3,15 +3,15 @@ jmax * number of processes
 kmax * number of nuisance parameters
 --------------------------------------------------------------------------------------------------------------------------------------------
 bin           bin2
-observation   103.0
+observation   96.0
 --------------------------------------------------------------------------------------------------------------------------------------------
 bin                                     bin2             bin2             bin2             bin2             bin2             bin2             
 process                                 0                1                2                3                4                5                
-process                                 signal           photon           qflip            ddfakes          lostlep          prompt           
-rate                                    7.986            4.279            1e-6             11.902           47.744           39.436           
+process                                 signal           photon           qflip            fakes            lostlep          prompt           
+rate                                    7.986            4.279            1e-6             5.407            47.744           39.436           
 --------------------------------------------------------------------------------------------------------------------------------------------
 promptSyst                 lnN          -                -                -                -                -                1.15             
-ddfakesSyst                lnN          -                -                -                1.5              -                -                
+fakesSyst                  lnN          -                -                -                1.5              -                -                
 lostlepSyst                lnN          -                -                -                -                0.0251           -                
 qflipSyst                  lnN          -                -                1.15             -                -                -                
 photonSyst                 lnN          -                1.15             -                -                -                -                
