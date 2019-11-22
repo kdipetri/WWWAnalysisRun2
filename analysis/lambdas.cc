@@ -1419,6 +1419,28 @@ std::function<float()> Lambdas::MjjOut(Variation::ExpSyst expsyst, Variation::Va
             [&]() { return (fabs(www.Mjj_jer()  -80.)>=15.); }
             );
 }
+std::function<float()> Lambdas::MjjLow(Variation::ExpSyst expsyst, Variation::Var var)
+{
+    return jetVar(expsyst, var,
+            [&]() { return ((www.Mjj_up()   -80.)<=-15.); },
+            [&]() { return ((www.Mjj_dn()   -80.)<=-15.); },
+            [&]() { return ((www.Mjj()      -80.)<=-15.); },
+            [&]() { return ((www.Mjj_jerup()-80.)<=-15.); },
+            [&]() { return ((www.Mjj_jerdn()-80.)<=-15.); },
+            [&]() { return ((www.Mjj_jer()  -80.)<=-15.); }
+            );
+}
+std::function<float()> Lambdas::MjjHigh(Variation::ExpSyst expsyst, Variation::Var var)
+{
+    return jetVar(expsyst, var,
+            [&]() { return ((www.Mjj_up()   -80.)>=15.); },
+            [&]() { return ((www.Mjj_dn()   -80.)>=15.); },
+            [&]() { return ((www.Mjj()      -80.)>=15.); },
+            [&]() { return ((www.Mjj_jerup()-80.)>=15.); },
+            [&]() { return ((www.Mjj_jerdn()-80.)>=15.); },
+            [&]() { return ((www.Mjj_jer()  -80.)>=15.); }
+            );
+}
 
 std::function<float()> Lambdas::ZVetoSS = [&]() { return fabs(www.MllSS()-91.1876)>20.; };
 std::function<float()> Lambdas::NBvetoSoft(Variation::ExpSyst expsyst, Variation::Var var, bool invert_btag){// kept the variations in case we need these
@@ -1796,6 +1818,22 @@ std::function<float()> Lambdas::SSMjjOut(Variation::ExpSyst expsyst, Variation::
     return [&, expsyst, var]()
     {
         if(not (Lambdas::MjjOut(expsyst,var)())) return false;
+        return true;
+    };
+}
+
+std::function<float()> Lambdas::SSMjjLow(Variation::ExpSyst expsyst, Variation::Var var){
+    return [&, expsyst, var]()
+    {
+        if(not (Lambdas::MjjLow(expsyst,var)())) return false;
+        return true;
+    };
+}
+
+std::function<float()> Lambdas::SSMjjHigh(Variation::ExpSyst expsyst, Variation::Var var){
+    return [&, expsyst, var]()
+    {
+        if(not (Lambdas::MjjHigh(expsyst,var)())) return false;
         return true;
     };
 }

@@ -888,6 +888,12 @@ int main(int argc, char** argv)
         ana.cutflow.getCut("SRSSmmKinSel");
         ana.cutflow.addCutToLastActiveCut("SRSSmmMjjOut"     , Lambdas::SSMjjOut        (Variation::JES, Variation::Nominal), UNITY);
         ana.cutflow.addCutToLastActiveCut("SRSSmmMjjOutFull" , UNITY                                                        , UNITY); // Adding one more node with name "<Region>Full"
+        ana.cutflow.getCut("SRSSmmKinSel");
+        ana.cutflow.addCutToLastActiveCut("SRSSmmMjjLow"     , Lambdas::SSMjjLow        (Variation::JES, Variation::Nominal), UNITY);
+        ana.cutflow.addCutToLastActiveCut("SRSSmmMjjLowFull" , UNITY                                                        , UNITY); // Adding one more node with name "<Region>Full"
+        ana.cutflow.getCut("SRSSmmKinSel");
+        ana.cutflow.addCutToLastActiveCut("SRSSmmMjjHigh"     , Lambdas::SSMjjHigh        (Variation::JES, Variation::Nominal), UNITY);
+        ana.cutflow.addCutToLastActiveCut("SRSSmmMjjHighFull" , UNITY                                                        , UNITY); // Adding one more node with name "<Region>Full"
         
         ana.cutflow.getCut("SRSSee");
         ana.cutflow.addCutToLastActiveCut("SRSS1Jee1JPre"     , Lambdas::SS1JPreselection (Variation::JES, Variation::Nominal), UNITY);

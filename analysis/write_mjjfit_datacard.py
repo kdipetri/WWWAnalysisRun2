@@ -4,6 +4,7 @@ from rooutil import datacard_writer as dw
 from rooutil import pyrootutil as pr
 import ROOT as r
 import sys
+from array import array
 
 
 # Systematics
@@ -23,7 +24,7 @@ systs = []
 #20% symmetric error on prompt
 systs.append( ("promptSyst"  , "lnN" , [] , {"signal":0 , "prompt":"1.15" , "photon":0     , "fakes":0     , "lostlep":0}) )
 systs.append( ("fakesSyst" , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":0      , "fakes":"1.5" , "lostlep":0}) )
-systs.append( ("lostlepSyst" , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":0      , "fakes":0     , "lostlep":1.2}) )
+systs.append( ("lostlepSyst" , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":0      , "fakes":0     , "lostlep":"1.2"}) )
 #systs.append( ("qflipSyst"   , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":0      , "fakes":0     , "lostlep":0}) )
 systs.append( ("photonSyst"  , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":"1.15" , "fakes":0     , "lostlep":0}) )
 ## 20% symmetric error on prompt
@@ -63,15 +64,19 @@ hist_suffixes.append("__MjjLZoom")#xmax = 500
 # nominal number of bins is 180
 rebins = []
 #rebins.append(0)#180 bins
-#rebins.append(2)#90 bins
-#rebins.append(3)#60 bins
-#rebins.append(4)#45 bins
-#rebins.append(5)#36 bins
-#rebins.append(6)#30 bins
-#rebins.append(9)#50 bins
+rebins.append(2)#90 bins
+rebins.append(3)#60 bins
+rebins.append(4)#45 bins
+rebins.append(5)#36 bins
+rebins.append(6)#30 bins
+rebins.append(9)#50 bins
 rebins.append(12)#50 bins
-#rebins.append(15)#50 bins
-#rebins.append(18)#50 bins
+rebins.append(15)#50 bins
+rebins.append(18)#50 bins
+rebins.append(-1)# special karri rebin
+rebins.append(-2)# special karri rebin
+rebins.append(-3)# special karri rebin
+rebins.append(-4)# special karri rebin
 
 for hist_suffix in hist_suffixes:
     for region in sys_regions: 
@@ -92,14 +97,35 @@ for hist_suffix in hist_suffixes:
                     )
                 )
 	    print(region, hist_suffix, rebin)
+	    rebinned_hists = []
 	    for hist in hists:
 		print(hist.GetName(), hist.Integral(0,-1))
-		if rebin > 0 : hist.Rebin(rebin)
+		if rebin > 0 : 
+			tmp_hist = hist.Rebin(rebin)
+		if rebin == -1 : 
+			xbins = [0,65,95,500] #array of low-edges, last one is upper edge of last bin
+			nbins = len(xbins)-1
+			tmp_hist = hist.Rebin(nbins,hist.GetName(),array("d",xbins));
+		if rebin == -2 : 
+			xbins = [0,60,100,500] #array of low-edges, last one is upper edge of last bin
+			nbins = len(xbins)-1
+			tmp_hist = hist.Rebin(nbins,hist.GetName(),array("d",xbins));
+		if rebin == -3 : 
+			xbins = [0,65,95,200,500] #array of low-edges, last one is upper edge of last bin
+			nbins = len(xbins)-1
+			tmp_hist = hist.Rebin(nbins,hist.GetName(),array("d",xbins));
+		if rebin == -4 : 
+			xbins = [0,65,95,150,250,500] #array of low-edges, last one is upper edge of last bin
+			nbins = len(xbins)-1
+			tmp_hist = hist.Rebin(nbins,hist.GetName(),array("d",xbins));
+		tmp_hist.Sumw2()
+		rebinned_hists.append(tmp_hist)
+		print("rebin {} {} {}".format(rebin,hist.GetBinContent(1),tmp_hist.GetBinContent(1)))
 	
 	    # separate into components
-	    data_hist = hists[0]
-	    bkg_hists = hists[1:-1]
-	    sig_hists = [hists[-1]]
+	    data_hist = rebinned_hists[0]
+	    bkg_hists = rebinned_hists[1:-1]
+	    sig_hists = [rebinned_hists[-1]]
 
 	    # Silly formating
 	    data_hist.SetName("data_obs")
@@ -110,7 +136,7 @@ for hist_suffix in hist_suffixes:
 	    # bkg2 does not need stat error as it is taken care of by CR stats
 	    outdir = "datacards_ssmjj"
 	    shapes_out="{}/www_ssmjj_input_shapes_{}_{}_rebin{}.root".format(outdir,region,hist_suffix,str(rebin))
-	    d = dw.DataCardWriter(sig=sig_hists[0], bgs=bkg_hists, data=data_hist, systs=systs, shape_fit=True, shape_file=shapes_out, no_stat_procs=["fakes", "lostlep"])
+	    d = dw.DataCardWriter(sig=sig_hists[0], bgs=bkg_hists, data=data_hist, systs=systs, shape_fit=True, shape_file=shapes_out, no_stat_procs=["fakes" ])
 	    
 	    i=1
 	    d.set_bin(i) # just for giggles?

@@ -23,7 +23,7 @@ systs = []
 # 20% symmetric error on prompt
 systs.append( ("promptSyst"  , "lnN" , [] , {"signal":0 , "prompt":"1.15" , "photon":0     , "qflip":0     , "fakes":0     , "lostlep":0}) )
 systs.append( ("fakesSyst" , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":0     , "qflip":0     , "fakes":"1.5" , "lostlep":0}) )
-systs.append( ("lostlepSyst" , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":0     , "qflip":0     , "fakes":0     , "lostlep":"1.2"}) )
+systs.append( ("lostlepSyst" , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":0     , "qflip":0     , "fakes":0     , "lostlep":1.2}) )
 systs.append( ("qflipSyst"   , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":0     , "qflip":"1.15" , "fakes":0     , "lostlep":0}) )
 systs.append( ("photonSyst"  , "lnN" , [] , {"signal":0 , "prompt":0     , "photon":"1.15" , "qflip":0     , "fakes":0     , "lostlep":0}) )
 
@@ -46,10 +46,11 @@ for fname in fnames:
                 regions = [
                     #"SRSSeeMjjInFull",
                     #"SRSSemMjjInFull",
+                    "SRSSmmMjjLowFull",
                     "SRSSmmMjjInFull",
                     #"SRSSeeMjjOutFull",
                     #"SRSSemMjjOutFull",
-                    "SRSSmmMjjOutFull",
+                    "SRSSmmMjjHighFull",
                     #"SRSS1JeeFull",
                     #"SRSS1JemFull",
                     #"SRSS1JmmFull",    
@@ -60,10 +61,11 @@ for fname in fnames:
                 labels = [
                     #"ee,Mjj-in",
                     #"em,Mjj-in",
+                    "mm,Mjj-low",
                     "mm,Mjj-in",
                     #"ee,Mjj-out",
                     #"em,Mjj-out",
-                    "mm,Mjj-out",
+                    "mm,Mjj-high",
                     #"ee,1j",
                     #"em,1j",
                     #"mm,1j",
@@ -89,9 +91,9 @@ sig_hists[0].SetTitle("signal")
 
 # Now create data card writer
 # bkg2 does not need stat error as it is taken care of by CR stats
-d = dw.DataCardWriter(sig=sig_hists[0], bgs=bkg_hists, data=None, systs=systs, no_stat_procs=["fakes", "lostlep"])
+d = dw.DataCardWriter(sig=sig_hists[0], bgs=bkg_hists, data=None, systs=systs, no_stat_procs=["fakes" ])
 
 for i in xrange(1, sig_hists[0].GetNbinsX()+1):
     d.set_bin(i)
     d.set_region_name("bin{}".format(i))
-    d.write("datacards_ssmumu/www_ssmumu_{}.txt".format(i))
+    d.write("datacards_ssmumu_3bin/www_ssmumu_{}.txt".format(i))

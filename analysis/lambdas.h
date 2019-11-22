@@ -174,6 +174,8 @@ namespace Lambdas
 
     std::function<float()> MjjIn(         Variation::ExpSyst expsyst=Variation::JES, Variation::Var var=Variation::Nominal); // Mjj-in ee
     std::function<float()> MjjOut(        Variation::ExpSyst expsyst=Variation::JES, Variation::Var var=Variation::Nominal); // Mjj-out ee
+    std::function<float()> MjjLow(        Variation::ExpSyst expsyst=Variation::JES, Variation::Var var=Variation::Nominal); // Mjj-out ee
+    std::function<float()> MjjHigh(        Variation::ExpSyst expsyst=Variation::JES, Variation::Var var=Variation::Nominal); // Mjj-out ee
 
     extern std::function<float()> ZVetoSS; // Same-sign Mll Z-veto
     std::function<float()> METcut(      Variation::ExpSyst expsyst=Variation::JES, Variation::Var var=Variation::Nominal, float value=60.);
@@ -187,6 +189,8 @@ namespace Lambdas
     std::function<float()> SSKinSel(        Variation::ExpSyst expsyst=Variation::JES, Variation::Var var=Variation::Nominal);
     std::function<float()> SSMjjIn(         Variation::ExpSyst expsyst=Variation::JES, Variation::Var var=Variation::Nominal);
     std::function<float()> SSMjjOut(        Variation::ExpSyst expsyst=Variation::JES, Variation::Var var=Variation::Nominal);
+    std::function<float()> SSMjjLow(        Variation::ExpSyst expsyst=Variation::JES, Variation::Var var=Variation::Nominal);
+    std::function<float()> SSMjjHigh(       Variation::ExpSyst expsyst=Variation::JES, Variation::Var var=Variation::Nominal);
     std::function<float()> SS1JPreselection(Variation::ExpSyst expsyst=Variation::JES, Variation::Var var=Variation::Nominal, bool invert_btag=false);
     std::function<float()> SS1J(            Variation::ExpSyst expsyst=Variation::JES, Variation::Var var=Variation::Nominal);
 
